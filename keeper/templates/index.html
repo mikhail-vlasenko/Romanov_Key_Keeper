@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Take a key</title>
+</head>
+<body>
+
+    <form method="POST">
+        {% csrf_token %}
+        <br>
+        {{ form }}
+        <br>
+        <input type="submit" value="Take">
+    </form>
+    {% if error %}
+        <p>error</p>
+    {% else %}
+        <p>You got a key!</p>
+    {% endif %}
+
+</body>
+</html>

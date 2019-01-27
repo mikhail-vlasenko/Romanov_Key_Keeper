@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>History</title>
+</head>
+<body>
+    {% if hist_list %}
+        <ul>
+        {% for elem in hist_list %}
+            <li>{{ elem.key }}, {{ elem.user_id }}, {{ elem.time_cr }} </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No history yet</p>
+    {% endif %}
+</body>
+</html>
