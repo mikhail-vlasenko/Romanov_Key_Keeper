@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% include "includes/nav_bar.html" %}
+<form method="POST">
+    {% csrf_token %}
+    <br>
+    {{ form }}
+    <br>
+    <input type="submit" value="Register">
+</form>
+{% if error %}
+<p>error</p>
+{% endif %}
+
+{% if success %}
+U r successfully registered!
+<ul>
+    {% for user in users %}
+        <li>{{user}}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+</body>
+</html>

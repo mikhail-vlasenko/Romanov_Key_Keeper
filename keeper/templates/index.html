@@ -10,15 +10,11 @@
     <form method="POST">
         {% csrf_token %}
         <br>
-        {{ form.user.label }} {{ form.user }}
-        <br>
         {{ form.key_num.label }} {{ form.key_num }}
         <br>
         <input type="submit" value="Take">
     </form>
-    {% if success %}
-        <p>You got a key!</p>
-    {% endif %}
+    {{ message }}
     {% if error %}
         <p>error</p>
     {% endif %}
