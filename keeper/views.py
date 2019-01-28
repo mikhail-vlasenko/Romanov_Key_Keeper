@@ -17,6 +17,7 @@ def index(request):
         if f.is_valid():
             hist = History(key=f.data['key_num'], time_cr=timezone.now(), user_id='admin')  # put a user, not admin
             hist.save()
+            context['success'] = True
 
     else:
         f = TakeKeyForm()
