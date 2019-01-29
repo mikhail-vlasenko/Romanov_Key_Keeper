@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 </head>
 <body>
 {% include "includes/nav_bar.html" %}
 <form method="POST">
     {% csrf_token %}
+    {{ form.username.label }} {{ form.username }}
     <br>
-    {{ form }}
+    {{ form.password.label }} {{ form.password }}
+    <br>
+    {{ form.password2.label }} {{ form.password2 }}
     <br>
     <input type="submit" value="Register">
 </form>
@@ -23,6 +27,6 @@
         <li>{{user}}</li>
     {% endfor %}
 </ul>
-{% endif %}
+
 </body>
 </html>

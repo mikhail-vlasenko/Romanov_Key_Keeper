@@ -1,13 +1,8 @@
-from django.http import HttpResponse, HttpResponseRedirect
 from .models import *
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
-from django.template import loader
 from django.shortcuts import get_object_or_404, render
-from django.http import Http404
-from django.urls import reverse
 from .forms import *
-from collections import Counter
 
 
 def index(request):
@@ -25,8 +20,8 @@ def index(request):
     else:
         f = TakeKeyForm()
 
-    key_list = History.objects.filter(user_id=request.user)
-    context = {'key_list': key_list}
+    key_list = History.objects.filter(user_id=request.user, active=True)
+    context['key_list'] = key_list
     context['form'] = f
     context['user_id'] = request.user
     return render(request, 'index.html', context)

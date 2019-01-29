@@ -13,6 +13,7 @@ class History(models.Model):
     time_cr = models.DateTimeField(default=timezone.now)
     # user_id = models.CharField(max_length=100)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.key

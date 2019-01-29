@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>History</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 </head>
 <body>
 {% include "includes/nav_bar.html" %}
     {% if hist_list %}
         <ul>
         {% for elem in hist_list %}
-            <li>{{ elem.key }}, {{ elem.user_id.username }}, {{ elem.time_cr }} </li>
+            <li>Room number: {{ elem.key }}, {{ elem.user_id.username }}, {{ elem.time_cr }}, Active: {{elem.active}} </li>
         {% endfor %}
         </ul>
     {% else %}

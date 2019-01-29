@@ -3,29 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Take a key</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 </head>
 <body>
-
     {% include "includes/nav_bar.html" %}
-
-    U r logged as {{ user_id }}
+    <p>U r logged as {{ user_id }}</p>
 
     <form method="POST">
         {% csrf_token %}
-        <br>
         {{ form.key_num.label }} {{ form.key_num }}
         <br>
         <input type="submit" value="Take">
     </form>
-    {{ message }}
+    <p>{{ message }}</p>
     {% if key_list %}
+        <p>Your keys:</p>
         <ul>
         {% for elem in key_list %}
             <li>{{ elem.key }}, {{ elem.time_cr }} </li>
         {% endfor %}
         </ul>
     {% else %}
-        <p>No history yet</p>
+        <p>You have no keys</p>
     {% endif %}
     {% if error %}
         <p>error</p>
