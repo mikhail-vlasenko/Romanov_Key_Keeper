@@ -3,32 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Take a key</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 </head>
 <body>
     {% include "includes/nav_bar.html" %}
-    <p>U r logged as {{ user_id }}</p>
+    <div class="container-fluid">
+        <p class="text-info">Вы зарегистрированны как {{ user_id }}</p>
 
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.key_num.label }} {{ form.key_num }}
-        <br>
-        <input type="submit" value="Take">
-    </form>
-    <p>{{ message }}</p>
-    {% if key_list %}
-        <p>Your keys:</p>
-        <ul>
-        {% for elem in key_list %}
-            <li>{{ elem.key }}, {{ elem.time_cr }} </li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>You have no keys</p>
-    {% endif %}
-    {% if error %}
-        <p>error</p>
-    {% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.key_num.label }} {{ form.key_num }}
+            <br>
+            <input type="submit" value="Take" class="btn btn-success">
+        </form>
+        <p>{{ message }}</p>
+        {% if key_list %}
+            <p>Your keys:</p>
+            <ul>
+            {% for elem in key_list %}
+                <li>{{ elem.key }}, {{ elem.time_cr }} </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>You have no keys</p>
+        {% endif %}
+        {% if error %}
+            <p>error</p>
+        {% endif %}
+    </div>
 
 </body>
 </html>

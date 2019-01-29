@@ -7,14 +7,23 @@
 </head>
 <body>
 {% include "includes/nav_bar.html" %}
+<div class="container-fluid">
     {% if hist_list %}
-        <ul>
-        {% for elem in hist_list %}
-            <li>Room number: {{ elem.key }}, {{ elem.user_id.username }}, {{ elem.time_cr }}, Active: {{elem.active}} </li>
-        {% endfor %}
-        </ul>
+            <h3>Таблица записей ключей</h3>
+            <table border="1">
+            <tr>
+                <th>Комната</th>
+                <th>Пользователь</th>
+                <th>Дата и время</th>
+                <th>Ключ не сдан</th>
+            </tr>
+            {% for elem in hist_list %}
+                <tr><td>{{ elem.key }}</td> <td>{{ elem.user_id.username }}</td> <td>{{ elem.time_cr }}</td> <td>{{elem.active}}</td> </tr>
+            {% endfor %}
+            </table>
     {% else %}
         <p>No history yet</p>
     {% endif %}
+</div>
 </body>
 </html>
