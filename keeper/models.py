@@ -11,8 +11,8 @@ class Key(models.Model):
 class History(models.Model):
     key = models.IntegerField()
     time_cr = models.DateTimeField(default=timezone.now)
-    user_id = models.CharField(max_length=100)
-    # user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    # user_id = models.CharField(max_length=100)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.key

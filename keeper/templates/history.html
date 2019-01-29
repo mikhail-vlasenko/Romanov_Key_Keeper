@@ -9,7 +9,7 @@
     {% if hist_list %}
         <ul>
         {% for elem in hist_list %}
-            <li>{{ elem.key }}, {{ elem.user_id }}, {{ elem.time_cr }} </li>
+            <li>{{ elem.key }}, {{ elem.user_id.username }}, {{ elem.time_cr }} </li>
         {% endfor %}
         </ul>
     {% else %}

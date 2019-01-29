@@ -7,6 +7,9 @@
 <body>
 
     {% include "includes/nav_bar.html" %}
+
+    U r logged as {{ user_id }}
+
     <form method="POST">
         {% csrf_token %}
         <br>
@@ -15,6 +18,15 @@
         <input type="submit" value="Take">
     </form>
     {{ message }}
+    {% if key_list %}
+        <ul>
+        {% for elem in key_list %}
+            <li>{{ elem.key }}, {{ elem.time_cr }} </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No history yet</p>
+    {% endif %}
     {% if error %}
         <p>error</p>
     {% endif %}

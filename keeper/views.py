@@ -16,7 +16,7 @@ def index(request):
         f = TakeKeyForm(request.POST)
         if f.is_valid():
             if request.user.is_authenticated:
-                hist = History(key=f.data['key_num'], time_cr=timezone.now(), user_id=request.user.username)  # put a user, not admin
+                hist = History(key=f.data['key_num'], time_cr=timezone.now(), user_id=request.user)
                 hist.save()
                 context['message'] = 'You got a key!'
             else:
@@ -25,7 +25,10 @@ def index(request):
     else:
         f = TakeKeyForm()
 
+    key_list = History.objects.filter(user_id=request.user)
+    context = {'key_list': key_list}
     context['form'] = f
+    context['user_id'] = request.user
     return render(request, 'index.html', context)
 
 
@@ -42,8 +45,14 @@ def register(request):
         if f.is_valid() and f.data['password'] == f.data['password2']:
             user = User.objects.create_user(username=f.data['username'], password=f.data['password'])
             user.save()
-            context['success'] = True
+            context['message'] = 'U r successfully registered!'
             context['users'] = User.objects.all()
+            user = authenticate(request, username=f.data['username'], password=f.data['password'])
+            if user is not None:
+                login(request, user)
+
+        elif f.data['password'] != f.data['password2']:
+            context['message'] = 'passwords do not match'
 
     else:
         f = RegisterForm()
@@ -60,8 +69,10 @@ def login_user(request):
             user = authenticate(request, username=f.data['username'], password=f.data['password'])
             if user is not None:
                 login(request, user)
-                context['success'] = True
+                context['message'] = 'logged in'
                 print("logged")
+            else:
+                context['message'] = 'failed to log in'
 
     else:
         f = LoginForm()
