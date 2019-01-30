@@ -1,8 +1,10 @@
 from .models import *
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.shortcuts import get_object_or_404, render
 from .forms import *
+
+REG_CODE = '12345'  # code to enable registration
 
 
 def index(request):
@@ -37,17 +39,19 @@ def register(request):
     context = {}
     if request.method == 'POST':
         f = RegisterForm(request.POST)
-        if f.is_valid() and f.data['password'] == f.data['password2']:
-            user = User.objects.create_user(username=f.data['username'], password=f.data['password'])
+        if f.is_valid() and f.data['password'] == f.data['password2'] and f.data['reg_code'] == REG_CODE:
+            user = CustomUser.objects.create_user(username=f.data['username'], password=f.data['password'], card_id=f.data['card_id'])
             user.save()
             context['message'] = 'U r successfully registered!'
-            context['users'] = User.objects.all()
+            context['users'] = CustomUser.objects.all()
             user = authenticate(request, username=f.data['username'], password=f.data['password'])
             if user is not None:
                 login(request, user)
 
         elif f.data['password'] != f.data['password2']:
             context['message'] = 'passwords do not match'
+        elif f.data['reg_code'] == REG_CODE:
+            context['message'] = 'code is incorrect'
 
     else:
         f = RegisterForm()
