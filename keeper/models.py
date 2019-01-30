@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 class CustomUser(AbstractUser):
+    password = models.CharField(max_length=200)
     card_id = models.IntegerField(default=8000000000)
 
 
