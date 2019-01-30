@@ -5,6 +5,7 @@ class RegisterForm(forms.Form):
     username = forms.CharField(label='Username:', max_length=100, required=True)
     password = forms.CharField(label='Password:', max_length=100, required=True)
     password2 = forms.CharField(label='Password again:', max_length=100, required=True)
+    card_id = forms.IntegerField(label='Card ID:', required=True)
 
 
 class LoginForm(forms.Form):

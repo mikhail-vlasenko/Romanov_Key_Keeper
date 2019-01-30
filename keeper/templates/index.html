@@ -15,7 +15,7 @@
             {% csrf_token %}
             {{ form.key_num.label }} {{ form.key_num }}
             <br>
-            <input type="submit" value="Take" class="btn btn-success">
+            <input type="submit" value="Take" class="btn btn-outline-success">
         </form>
         <p>{{ message }}</p>
         {% if key_list %}

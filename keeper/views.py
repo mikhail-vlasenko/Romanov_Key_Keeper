@@ -74,3 +74,8 @@ def login_user(request):
 
     context['form'] = f
     return render(request, 'login.html', context)
+
+
+def about(request):
+    context = {}
+    return render(request, 'about.html', context)

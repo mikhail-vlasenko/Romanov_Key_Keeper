@@ -8,4 +8,5 @@ urlpatterns = [
     path('history/', views.history, name='history'),
     path('reg/', views.register, name='register'),
     path('login/', views.login_user, name='login'),
+    path('about/', views.about, name='about'),  # add about page
 ]
