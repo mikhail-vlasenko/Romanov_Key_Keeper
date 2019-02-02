@@ -7,31 +7,23 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 </head>
 <body>
+
     {% include "includes/nav_bar.html" %}
     <div class="container-fluid">
-        <p class="text-info">Вы зарегистрированны как {{ user_id }}</p>
-
         <form method="POST">
             {% csrf_token %}
+            {{ form.card.label }} {{ form.card }}
+            <br>
             {{ form.key_num.label }} {{ form.key_num }}
             <br>
             <input type="submit" value="Take" class="btn btn-outline-success">
         </form>
-        <p>{{ message }}</p>
-        {% if key_list %}
-            <p>Your keys:</p>
-            <ul>
-            {% for elem in key_list %}
-                <li>{{ elem.key }}, {{ elem.time_cr }} </li>
-            {% endfor %}
-            </ul>
-        {% else %}
-            <p>You have no active keys</p>
-        {% endif %}
         {% if error %}
             <p>error</p>
         {% endif %}
+        <p>{{ message }}</p>
     </div>
+
 
 </body>
 </html>

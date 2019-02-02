@@ -3,10 +3,14 @@ from .models import *
 from django.contrib.auth import authenticate, login
 from django.shortcuts import get_object_or_404, render
 from .forms import *
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
+
 
 REG_CODE = '12345'  # code to enable registration
 
 
+@login_required
 def index(request):
     context = {}
     if request.method == 'POST':
@@ -22,15 +26,56 @@ def index(request):
     else:
         f = TakeKeyForm()
 
-    key_list = History.objects.filter(user_id=request.user, active=True)
-    context['key_list'] = key_list
+    if request.user.is_active:
+        key_list = History.objects.filter(user_id=request.user, active=True)
+        context['key_list'] = key_list
+
     context['form'] = f
     context['user_id'] = request.user
     return render(request, 'index.html', context)
 
 
+def card_take(request):
+    context = {}
+    if request.method == 'POST':
+        f = CardForm(request.POST)
+        if f.is_valid():
+            card_user = 0
+            c_exist = True
+            try:
+                card_user = CustomUser.objects.filter(card_id=f.data['card']).get()
+            except ObjectDoesNotExist:
+                context['message'] = 'No such card'
+                c_exist = False
+
+            if c_exist:
+                try_flag = True
+                hist_unit = 0
+                try:
+                    hist_unit = History.objects.filter(key=f.data['key_num'], user_id=card_user).get()
+                except ObjectDoesNotExist:
+                    hist = History(key=f.data['key_num'], time_cr=timezone.now(), user_id=card_user)
+                    hist.save()
+                    try_flag = False
+                    context['message'] = 'You got a key!'
+
+                if try_flag:
+                    hist_unit.active = False
+                    hist_unit.save()
+                    context['message'] = 'You gave a key back!'
+
+            else:
+                context['message'] = 'No such card'
+
+    else:
+        f = CardForm()
+
+    context['form'] = f
+    return render(request, 'card_reader.html', context)
+
+
 def history(request):
-    hist_list = History.objects.all()
+    hist_list = History.objects.order_by('time_cr')[::-1]
     context = {'hist_list': hist_list}
     return render(request, 'history.html', context)
 
