@@ -18,7 +18,7 @@
                 <th>Ключ не сдан</th>
             </tr>
             {% for elem in hist_list %}
-                <tr><td>{{ elem.key }}</td> <td>{{ elem.user_id.username }}</td> <td>{{ elem.time_cr }}</td> <td>{{elem.active}}</td> </tr>
+                <tr><td>{{ elem.key }}</td> <td>{{ elem.user_id.last_name }} {{ elem.user_id.first_name }}</td> <td>{{ elem.time_cr }}</td> <td>{{elem.active}}</td> </tr>
             {% endfor %}
             </table>
     {% else %}

@@ -20,11 +20,15 @@
         <p>{{ message }}</p>
         {% if key_list %}
             <p>Your keys:</p>
-            <ul>
+            <table border="1">
+            <tr>
+                <th>Комната</th>
+                <th>Дата и время</th>
+            </tr>
             {% for elem in key_list %}
-                <li>{{ elem.key }}, {{ elem.time_cr }} </li>
+                <tr><td>{{ elem.key }}</td> <td>{{ elem.time_cr }}</td></tr>
             {% endfor %}
-            </ul>
+            </table>
         {% else %}
             <p>You have no active keys</p>
         {% endif %}

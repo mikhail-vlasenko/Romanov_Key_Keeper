@@ -31,7 +31,7 @@ def index(request):
         context['key_list'] = key_list
 
     context['form'] = f
-    context['user_id'] = request.user
+    context['user_id'] = str(request.user.last_name) + ' ' + str(request.user.first_name)
     return render(request, 'index.html', context)
 
 
@@ -113,8 +113,11 @@ def login_user(request):
             user = authenticate(request, username=f.data['username'], password=f.data['password'])
             if user is not None:
                 login(request, user)
-                context['message'] = 'logged in'
-                print("logged")
+                context['user_id'] = str(user.last_name) + ' ' + str(user.first_name)
+                key_list = History.objects.filter(user_id=user, active=True)
+                context['key_list'] = key_list
+                context['form'] = TakeKeyForm()
+                return render(request, 'index.html', context)
             else:
                 context['message'] = 'failed to log in'
 

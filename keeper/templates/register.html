@@ -12,6 +12,10 @@
         {% csrf_token %}
         {{ form.username.label }} {{ form.username }}
         <br>
+        {{ form.first_name.label }} {{ form.first_name }}
+        <br>
+        {{ form.last_name.label }} {{ form.last_name }}
+        <br>
         {{ form.password.label }} {{ form.password }}
         <br>
         {{ form.password2.label }} {{ form.password2 }}
@@ -20,7 +24,7 @@
         <br>
         {{ form.reg_code.label }} {{ form.reg_code }}
         <br>
-        <input type="submit" value="Register" class="btn btn-outline-success">
+        <input type="submit" value="Зарегистрироваться" class="btn btn-outline-success">
     </form>
     {% if error %}
     <p>error</p>
