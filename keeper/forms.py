@@ -16,11 +16,6 @@ class LoginForm(forms.Form):
     password = forms.CharField(label='Пароль:', max_length=100, required=True)
 
 
-class TakeKeyForm(forms.Form):
-    # user = forms.CharField(label='Username:', max_length=100, required=True)
-    key_num = forms.IntegerField(label='Номер кабинета:', max_value=1000, required=True)
-
-
 class CardForm(forms.Form):
     card = forms.IntegerField(label='Номер карты:', required=True)
     key_num = forms.IntegerField(label='Номер кабинета:', max_value=1000, required=True)
