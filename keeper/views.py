@@ -17,6 +17,7 @@ def index(request):
         f = TakeKeyForm(request.POST)
         if f.is_valid():
             if request.user.is_authenticated:
+                print(request.user)
                 hist = History(key=f.data['key_num'], time_cr=timezone.now(), user_id=request.user)
                 hist.save()
                 context['message'] = 'You got a key!'
@@ -52,7 +53,7 @@ def card_take(request):
                 try_flag = True
                 hist_unit = 0
                 try:
-                    hist_unit = History.objects.filter(key=f.data['key_num'], user_id=card_user).get()
+                    hist_unit = History.objects.filter(key=f.data['key_num'], user_id=card_user, active=True).get()
                 except ObjectDoesNotExist:
                     hist = History(key=f.data['key_num'], time_cr=timezone.now(), user_id=card_user)
                     hist.save()
@@ -85,7 +86,9 @@ def register(request):
     if request.method == 'POST':
         f = RegisterForm(request.POST)
         if f.is_valid() and f.data['password'] == f.data['password2'] and f.data['reg_code'] == REG_CODE:
-            user = CustomUser.objects.create_user(username=f.data['username'], password=f.data['password'], card_id=f.data['card_id'])
+            user = CustomUser.objects.create_user(
+                username=f.data['username'], password=f.data['password'],
+                card_id=f.data['card_id'], last_name=f.data['last_name'], first_name=f.data['first_name'])
             user.save()
             context['message'] = 'U r successfully registered!'
             context['users'] = CustomUser.objects.all()

@@ -19,9 +19,3 @@ class History(models.Model):
     # user_id = models.CharField(max_length=100)
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     active = models.BooleanField(default=True)
-
-    def __str__(self):
-        return self.key
-
-
-# Create your models here.
