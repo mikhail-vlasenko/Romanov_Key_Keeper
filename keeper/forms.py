@@ -24,3 +24,8 @@ class TakeKeyForm(forms.Form):
 class CardForm(forms.Form):
     card = forms.IntegerField(label='Номер карты:', required=True)
     key_num = forms.IntegerField(label='Номер кабинета:', max_value=1000, required=True)
+
+
+class TransferForm(forms.Form):
+    username = forms.CharField(label='Имя пользователя, которому передать:', max_length=100, required=True)
+    key_num = forms.IntegerField(label='Номер кабинета:', max_value=1000, required=True)

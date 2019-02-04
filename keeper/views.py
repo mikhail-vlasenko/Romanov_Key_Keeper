@@ -50,20 +50,15 @@ def card_take(request):
                 c_exist = False
 
             if c_exist:
-                try_flag = True
-                hist_unit = 0
                 try:
                     hist_unit = History.objects.filter(key=f.data['key_num'], user_id=card_user, active=True).get()
-                except ObjectDoesNotExist:
-                    hist = History(key=f.data['key_num'], time_cr=timezone.now(), user_id=card_user)
-                    hist.save()
-                    try_flag = False
-                    context['message'] = 'You got a key!'
-
-                if try_flag:
                     hist_unit.active = False
                     hist_unit.save()
                     context['message'] = 'You gave a key back!'
+                except ObjectDoesNotExist:
+                    hist = History(key=f.data['key_num'], time_cr=timezone.now(), user_id=card_user)
+                    hist.save()
+                    context['message'] = 'You got a key!'
 
             else:
                 context['message'] = 'No such card'
@@ -73,6 +68,38 @@ def card_take(request):
 
     context['form'] = f
     return render(request, 'card_reader.html', context)
+
+
+@login_required
+def transfer(request):
+    context = {}
+    if request.method == 'POST':
+        f = TransferForm(request.POST)
+        if f.is_valid():
+            try:
+                tran_user = CustomUser.objects.filter(username=f.data['username']).get()
+                try:
+                    hist2 = History.objects.filter(key=f.data['key_num'], user_id=request.user, active=True).get()
+                    hist2.active = False
+                    hist2.save()
+                    hist = History(key=f.data['key_num'], time_cr=timezone.now(), user_id=tran_user)
+                    hist.save()
+                    context['message'] = 'Вы передали ключ!'
+                except ObjectDoesNotExist:
+                    context['message'] = 'У вас нет такого ключа'
+            except ObjectDoesNotExist:
+                context['message'] = 'Нет такого пользователя'
+
+    else:
+        f = TransferForm()
+
+    if request.user.is_active:
+        key_list = History.objects.filter(user_id=request.user, active=True)
+        context['key_list'] = key_list
+
+    context['form'] = f
+    context['user_id'] = str(request.user.last_name) + ' ' + str(request.user.first_name)
+    return render(request, 'transfer.html', context)
 
 
 def history(request):
