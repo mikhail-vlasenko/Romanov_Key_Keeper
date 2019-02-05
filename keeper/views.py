@@ -69,8 +69,29 @@ def card_take(request):
 
 
 def history(request):
-    hist_list = History.objects.order_by('time_cr')[::-1]
-    context = {'hist_list': hist_list}
+    context = {}
+    hist_list = History.objects.order_by('-time_cr')[:100]
+    if request.method == 'POST':
+        f = SearchForm(request.POST)
+        if f.is_valid():
+            if f.data['key_num'] != '' and f.data['last_name'] != '':
+                hist_list = []
+                for x in History.objects.all():
+                    if x.user_id.last_name == f.data['last_name'] and x.key == int(f.data['key_num']):
+                        hist_list.append(x)
+
+            elif f.data['key_num'] != '':
+                hist_list = History.objects.filter(key=f.data['key_num']).order_by('-time_cr')[:100]
+            elif f.data['last_name'] != '':
+                hist_list = []
+                for x in History.objects.all():
+                    if x.user_id.last_name == f.data['last_name']:
+                        hist_list.append(x)
+
+    else:
+        f = SearchForm()
+    context['hist_list'] = hist_list
+    context['form'] = f
     return render(request, 'history.html', context)
 
 

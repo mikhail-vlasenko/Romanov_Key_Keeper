@@ -8,6 +8,13 @@
 <body>
 {% include "includes/nav_bar.html" %}
 <div class="container-fluid">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.key_num.label }} {{ form.key_num }}
+        {{ form.last_name.label }} {{ form.last_name }}
+        <input type="submit" value="Искать" class="btn btn-outline-success">
+    </form>
+    {{message}}
     {% if hist_list %}
             <h3>Таблица записей ключей</h3>
             <table border="1">

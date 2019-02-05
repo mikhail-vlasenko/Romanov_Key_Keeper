@@ -14,4 +14,10 @@ class History(models.Model):
     time_cr = models.DateTimeField(default=timezone.now)
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     active = models.BooleanField(default=True)
-    memo = models.CharField(max_length=200, default='')
+
+    def filter_last_name(self, name):
+        res = []
+        for x in History.objects.all():
+            if x.user_id.last_name == name:
+                res.append(x)
+        return res

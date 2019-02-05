@@ -24,3 +24,8 @@ class CardForm(forms.Form):
 class TransferForm(forms.Form):
     username = forms.CharField(label='Имя пользователя, которому передать:', max_length=100, required=True)
     key_num = forms.IntegerField(label='Номер кабинета:', max_value=1000, required=True)
+
+
+class SearchForm(forms.Form):
+    key_num = forms.IntegerField(label='Номер кабинета:', max_value=1000, required=False)
+    last_name = forms.CharField(label='Фамилия:', max_length=100, required=False)
