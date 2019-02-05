@@ -12,6 +12,11 @@
         {% csrf_token %}
         {{ form.key_num.label }} {{ form.key_num }}
         {{ form.last_name.label }} {{ form.last_name }}
+        <select name="is_active">
+            <option value="none">Не важно</option>
+            <option value="true">Ключ НЕ сдан</option>
+            <option value="false">Ключ сдан</option>
+        </select>
         <input type="submit" value="Искать" class="btn btn-outline-success">
     </form>
     {{message}}

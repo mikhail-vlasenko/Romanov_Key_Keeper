@@ -70,10 +70,10 @@ def card_take(request):
 
 def history(request):
     context = {}
-    hist_list = History.objects.order_by('-time_cr')[:100]
     if request.method == 'POST':
         f = SearchForm(request.POST)
         if f.is_valid():
+            hist_list = History.objects.all().order_by('-time_cr')
             if f.data['key_num'] != '' and f.data['last_name'] != '':
                 hist_list = []
                 for x in History.objects.all():
@@ -88,8 +88,23 @@ def history(request):
                     if x.user_id.last_name == f.data['last_name']:
                         hist_list.append(x)
 
+            if f.data['is_active'] == 'true':
+                hist_list2 = []
+                for x in hist_list:
+                    if x.active:
+                        hist_list2.append(x)
+                hist_list = hist_list2[:100]
+            elif f.data['is_active'] == 'false':
+                hist_list2 = []
+                for x in hist_list:
+                    if not x.active:
+                        hist_list2.append(x)
+                hist_list = hist_list2[:100]
+
     else:
+        hist_list = History.objects.order_by('-time_cr')[:100]
         f = SearchForm()
+
     context['hist_list'] = hist_list
     context['form'] = f
     return render(request, 'history.html', context)
@@ -112,7 +127,7 @@ def register(request):
 
         elif f.data['password'] != f.data['password2']:
             context['message'] = 'Пароли не совпадают'
-        elif f.data['reg_code'] == REG_CODE:
+        elif f.data['reg_code'] != REG_CODE:
             context['message'] = 'Код для регистрации не правильный'
 
     else:
@@ -130,11 +145,7 @@ def login_user(request):
             user = authenticate(request, username=f.data['username'], password=f.data['password'])
             if user is not None:
                 login(request, user)
-                context['user_id'] = str(user.last_name) + ' ' + str(user.first_name)
-                key_list = History.objects.filter(user_id=user, active=True)
-                context['key_list'] = key_list
-                context['form'] = TransferForm()
-                return render(request, 'transfer.html', context)
+                context['message'] = 'Вход выполнен!'
             else:
                 context['message'] = 'Не получилось войти:('
 
