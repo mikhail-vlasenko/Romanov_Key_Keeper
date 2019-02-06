@@ -70,23 +70,34 @@ def card_take(request):
 
 def history(request):
     context = {}
+    hist_list = []
     if request.method == 'POST':
         f = SearchForm(request.POST)
         if f.is_valid():
-            hist_list = History.objects.all().order_by('-time_cr')
+            hist_list = History.objects.all()[::-1]
+            hist_list = hist_list[:100]
             if f.data['key_num'] != '' and f.data['last_name'] != '':
                 hist_list = []
-                for x in History.objects.all():
+                count = 0
+                for x in History.objects.all()[::-1]:
                     if x.user_id.last_name == f.data['last_name'] and x.key == int(f.data['key_num']):
                         hist_list.append(x)
+                        count += 1
+                        if count == 100:
+                            break
 
             elif f.data['key_num'] != '':
-                hist_list = History.objects.filter(key=f.data['key_num']).order_by('-time_cr')[:100]
+                hist_list = History.objects.filter(key=f.data['key_num'])[::-1]
+                hist_list = hist_list[:100]
             elif f.data['last_name'] != '':
                 hist_list = []
-                for x in History.objects.all():
+                count = 0
+                for x in History.objects.all()[::-1]:
                     if x.user_id.last_name == f.data['last_name']:
                         hist_list.append(x)
+                        count += 1
+                        if count == 100:
+                            break
 
             if f.data['is_active'] == 'true':
                 hist_list2 = []
@@ -102,7 +113,8 @@ def history(request):
                 hist_list = hist_list2[:100]
 
     else:
-        hist_list = History.objects.order_by('-time_cr')[:100]
+        hist_list = History.objects.all()[::-1]
+        hist_list = hist_list[:100]
         f = SearchForm()
 
     context['hist_list'] = hist_list
