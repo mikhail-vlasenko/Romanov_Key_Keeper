@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404, render
 from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponse, HttpResponseRedirect
 
 
 REG_CODE = '12345'  # code to enable registration
@@ -141,6 +142,7 @@ def register(request):
                     user = authenticate(request, username=f.data['username'], password=f.data['password'])
                     if user is not None:
                         login(request, user)
+                        return HttpResponseRedirect('/')
             except:  #IntegrityError???
                 context['message'] = 'Такое имя пользователя уже есть'
 
@@ -166,6 +168,7 @@ def login_user(request):
             if user is not None:
                 login(request, user)
                 context['message'] = 'Вход выполнен!'
+                return HttpResponseRedirect('/')
             else:
                 context['message'] = 'Не получилось войти:('
 
