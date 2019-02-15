@@ -21,8 +21,9 @@ def index(request):
                 try:
                     hist2 = History.objects.filter(key=f.data['key_num'], user_id=request.user, active=True).get()
                     hist2.active = False
+                    hist2.time_back = datetime.datetime.now()
                     hist2.save()
-                    hist = History(key=f.data['key_num'], time_cr=timezone.now(), user_id=tran_user)
+                    hist = History(key=f.data['key_num'], time_cr=datetime.datetime.now(), user_id=tran_user)
                     hist.save()
                     context['message'] = 'Вы передали ключ!'
                 except ObjectDoesNotExist:
@@ -52,6 +53,7 @@ def card_take(request):
                 try:
                     hist_unit = History.objects.filter(key=f.data['key_num'], user_id=card_user, active=True).get()
                     hist_unit.active = False
+                    hist_unit.time_back = datetime.datetime.now()
                     hist_unit.save()
                     context['message'] = 'Вы отдали ключ!'
                 except ObjectDoesNotExist:

@@ -11,13 +11,8 @@ class CustomUser(AbstractUser):
 
 class History(models.Model):
     key = models.IntegerField()
-    time_cr = models.DateTimeField(default=timezone.now)
+    time_cr = models.DateTimeField(default=datetime.datetime.now)
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     active = models.BooleanField(default=True)
+    time_back = models.DateTimeField(default=datetime.datetime.min)
 
-    def filter_last_name(self, name):
-        res = []
-        for x in History.objects.all():
-            if x.user_id.last_name == name:
-                res.append(x)
-        return res
