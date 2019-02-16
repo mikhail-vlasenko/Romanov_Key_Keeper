@@ -1,6 +1,6 @@
 from .models import *
 # from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import get_object_or_404, render
 from .forms import *
 from django.contrib.auth.decorators import login_required
@@ -44,6 +44,7 @@ def index(request):
     return render(request, 'transfer.html', context)
 
 
+@login_required
 def card_take(request):
     context = {}
     if request.method == 'POST':
@@ -177,6 +178,11 @@ def login_user(request):
 
     context['form'] = f
     return render(request, 'login.html', context)
+
+
+def logout_user(request):
+    logout(request)
+    return HttpResponseRedirect('/login')
 
 
 def about(request):
