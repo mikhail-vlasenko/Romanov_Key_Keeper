@@ -32,6 +32,7 @@ AUTH_USER_MODEL = 'keeper.CustomUser'
 # Application definition
 
 INSTALLED_APPS = [
+    'docs._build.html',
     'keeper.apps.KeeperConfig',
     'django.contrib.admin',
     'django.contrib.auth',

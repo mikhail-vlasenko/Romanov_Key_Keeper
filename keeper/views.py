@@ -13,6 +13,13 @@ REG_CODE = '12345'  # code to enable registration
 
 @login_required
 def index(request):
+    """
+    Рендеринг главной страницы
+
+    :param request: объект запроса
+    :return: объект ответа на запрос, содержащий *HTML* код
+    :rtype: :class: `django.http.HttpResponse`
+    """
     context = {}
     if request.method == 'POST':
         f = TransferForm(request.POST)

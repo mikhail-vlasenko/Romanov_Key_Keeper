@@ -5,6 +5,11 @@ from django.contrib.auth.models import AbstractUser
 
 
 class CustomUser(AbstractUser):
+    """
+    Основная модель для хранения пользователей
+
+    :param card_id: номер карты
+    """
     password = models.CharField(max_length=200)
     card_id = models.IntegerField(default=8000000000)
 
