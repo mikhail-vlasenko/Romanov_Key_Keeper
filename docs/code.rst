@@ -1,15 +1,15 @@
-Документация для разработчиков
-==============================
+Developer documentation
+=======================
 
-************
-View-функции
-************
+**************
+View-functions
+**************
 
 .. automodule:: keeper.views
     :members:
 
 ******
-Модели
+Models
 ******
 
 .. automodule:: keeper.models

@@ -14,10 +14,11 @@ REG_CODE = '12345'  # code to enable registration
 @login_required
 def index(request):
     """
-    Рендеринг главной страницы
+    Main page rendering function
+    Lets users to transfer key to each other
 
-    :param request: объект запроса
-    :return: объект ответа на запрос, содержащий *HTML* код
+    :param request: request object
+    :return: request answer object, contains *HTML* file
     :rtype: :class: `django.http.HttpResponse`
     """
     context = {}
@@ -53,6 +54,14 @@ def index(request):
 
 @login_required
 def card_take(request):
+    """
+    Card using page rendering function
+    Lets users to take/return keys using their cards
+
+    :param request: request object
+    :return: request answer object, contains *HTML* file
+    :rtype: :class: `django.http.HttpResponse`
+    """
     context = {}
     if request.method == 'POST':
         f = CardForm(request.POST)
@@ -80,6 +89,15 @@ def card_take(request):
 
 
 def history(request):
+    """
+    History page rendering function
+    Lets users to see history or search through it
+    No login required
+
+    :param request: request object
+    :return: request answer object, contains *HTML* file
+    :rtype: :class: `django.http.HttpResponse`
+    """
     context = {}
     hist_list = []
     if request.method == 'POST':
@@ -134,6 +152,14 @@ def history(request):
 
 
 def register(request):
+    """
+        Register page rendering function
+        Lets users to register on the website
+
+        :param request: request object
+        :return: request answer object, contains *HTML* file
+        :rtype: :class: `django.http.HttpResponse`
+    """
     context = {}
     if request.method == 'POST':
         f = RegisterForm(request.POST)
@@ -168,6 +194,14 @@ def register(request):
 
 
 def login_user(request):
+    """
+        Login page rendering function
+        Lets users to login on the website
+
+        :param request: request object
+        :return: request answer object, contains *HTML* file
+        :rtype: :class: `django.http.HttpResponse`
+    """
     context = {}
     if request.method == 'POST':
         f = LoginForm(request.POST)
@@ -188,10 +222,24 @@ def login_user(request):
 
 
 def logout_user(request):
+    """
+        Logout function
+
+        :param request: request object
+        :return: Redirect to login page
+        :rtype: :class: `django.http.HttpResponseRedirect`
+    """
     logout(request)
     return HttpResponseRedirect('/login')
 
 
 def about(request):
+    """
+        About page rendering function
+
+        :param request: request object
+        :return: request answer object, contains *HTML* file
+        :rtype: :class: `django.http.HttpResponse`
+    """
     context = {}
     return render(request, 'about.html', context)

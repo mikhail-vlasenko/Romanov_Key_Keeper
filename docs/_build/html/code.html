@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Документация для разработчиков &#8212; Документация Key Keeper </title>
+    <title>Developer documentation &#8212; Документация Key Keeper </title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -17,6 +17,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <link rel="index" title="Алфавитный указатель" href="genindex.html" />
     <link rel="search" title="Поиск" href="search.html" />
+    <link rel="prev" title="Описание страниц" href="overview.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -33,21 +34,183 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="id1">
-<h1>Документация для разработчиков<a class="headerlink" href="#id1" title="Ссылка на этот заголовок">¶</a></h1>
+  <div class="section" id="developer-documentation">
+<h1>Developer documentation<a class="headerlink" href="#developer-documentation" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="section" id="module-keeper.views">
-<span id="view"></span><h2>View-функции<a class="headerlink" href="#module-keeper.views" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="view-functions"></span><h2>View-functions<a class="headerlink" href="#module-keeper.views" title="Ссылка на этот заголовок">¶</a></h2>
 <dl class="function">
-<dt id="keeper.views.index">
-<code class="descclassname">keeper.views.</code><code class="descname">index</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#keeper.views.index" title="Ссылка на это определение">¶</a></dt>
-<dd><p>Рендеринг главной страницы</p>
+<dt id="keeper.views.about">
+<code class="descclassname">keeper.views.</code><code class="descname">about</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#keeper.views.about" title="Ссылка на это определение">¶</a></dt>
+<dd><p>About page rendering function</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Параметры:</th><td class="field-body"><strong>request</strong> – объект запроса</td>
+<tr class="field-odd field"><th class="field-name">Параметры:</th><td class="field-body"><strong>request</strong> – request object</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Результат:</th><td class="field-body">объект ответа на запрос, содержащий <em>HTML</em> код</td>
+<tr class="field-even field"><th class="field-name">Результат:</th><td class="field-body">request answer object, contains <em>HTML</em> file</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Тип результата:</th><td class="field-body"><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">class:</th><td class="field-body"><cite>django.http.HttpResponse</cite></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="keeper.views.card_take">
+<code class="descclassname">keeper.views.</code><code class="descname">card_take</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#keeper.views.card_take" title="Ссылка на это определение">¶</a></dt>
+<dd><p>Card using page rendering function
+Lets users to take/return keys using their cards</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Параметры:</th><td class="field-body"><strong>request</strong> – request object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Результат:</th><td class="field-body">request answer object, contains <em>HTML</em> file</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Тип результата:</th><td class="field-body"><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">class:</th><td class="field-body"><cite>django.http.HttpResponse</cite></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="keeper.views.history">
+<code class="descclassname">keeper.views.</code><code class="descname">history</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#keeper.views.history" title="Ссылка на это определение">¶</a></dt>
+<dd><p>History page rendering function
+Lets users to see history or search through it
+No login required</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Параметры:</th><td class="field-body"><strong>request</strong> – request object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Результат:</th><td class="field-body">request answer object, contains <em>HTML</em> file</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Тип результата:</th><td class="field-body"><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">class:</th><td class="field-body"><cite>django.http.HttpResponse</cite></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="keeper.views.index">
+<code class="descclassname">keeper.views.</code><code class="descname">index</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#keeper.views.index" title="Ссылка на это определение">¶</a></dt>
+<dd><p>Main page rendering function
+Lets users to transfer key to each other</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Параметры:</th><td class="field-body"><strong>request</strong> – request object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Результат:</th><td class="field-body">request answer object, contains <em>HTML</em> file</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Тип результата:</th><td class="field-body"><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">class:</th><td class="field-body"><cite>django.http.HttpResponse</cite></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="keeper.views.login_user">
+<code class="descclassname">keeper.views.</code><code class="descname">login_user</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#keeper.views.login_user" title="Ссылка на это определение">¶</a></dt>
+<dd><p>Login page rendering function
+Lets users to login on the website</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Параметры:</th><td class="field-body"><strong>request</strong> – request object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Результат:</th><td class="field-body">request answer object, contains <em>HTML</em> file</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Тип результата:</th><td class="field-body"><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">class:</th><td class="field-body"><cite>django.http.HttpResponse</cite></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="keeper.views.logout_user">
+<code class="descclassname">keeper.views.</code><code class="descname">logout_user</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#keeper.views.logout_user" title="Ссылка на это определение">¶</a></dt>
+<dd><p>Logout function</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Параметры:</th><td class="field-body"><strong>request</strong> – request object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Результат:</th><td class="field-body">Redirect to login page</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Тип результата:</th><td class="field-body"><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">class:</th><td class="field-body"><cite>django.http.HttpResponseRedirect</cite></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="keeper.views.register">
+<code class="descclassname">keeper.views.</code><code class="descname">register</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#keeper.views.register" title="Ссылка на это определение">¶</a></dt>
+<dd><p>Register page rendering function
+Lets users to register on the website</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Параметры:</th><td class="field-body"><strong>request</strong> – request object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Результат:</th><td class="field-body">request answer object, contains <em>HTML</em> file</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Тип результата:</th><td class="field-body"><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -65,7 +228,7 @@
 
 </div>
 <div class="section" id="module-keeper.models">
-<span id="id2"></span><h2>Модели<a class="headerlink" href="#module-keeper.models" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="models"></span><h2>Models<a class="headerlink" href="#module-keeper.models" title="Ссылка на этот заголовок">¶</a></h2>
 <dl class="class">
 <dt id="keeper.models.CustomUser">
 <em class="property">class </em><code class="descclassname">keeper.models.</code><code class="descname">CustomUser</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#keeper.models.CustomUser" title="Ссылка на это определение">¶</a></dt>
@@ -125,11 +288,21 @@
 
 
 <h3>Навигация</h3>
+<p class="caption"><span class="caption-text">Содержание:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Описание страниц</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Developer documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-keeper.views">View-functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-keeper.models">Models</a></li>
+</ul>
+</li>
+</ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="overview.html" title="предыдущая глава">Описание страниц</a></li>
   </ul></li>
 </ul>
 </div>
