@@ -242,4 +242,4 @@ def about(request):
         :rtype: :class: `django.http.HttpResponse`
     """
     context = {}
-    return render(request, 'about.html', context)
+    return render(request, 'doc_index.html', context)
