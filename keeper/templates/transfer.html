@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+
     <title>Transfer</title>
     {% include "includes/head.html" %}
 </head>
@@ -18,8 +18,13 @@
             <input type="submit" value="Передать" class="btn btn-outline-success">
         </form>
         <p>{{ message }}</p>
+
+        {% if key_receive %}
+            <p> Пользователь {{ user_receive }} запрашивает разрешение на передачу вам ключа от кабинета №{{ key_receive }}</p>
+        {% endif %}
+
         {% if key_list %}
-            <p>Your keys:</p>
+            <p>Ваши ключи:</p>
             <table border="1">
             <tr>
                 <th>Комната</th>
