@@ -129,17 +129,21 @@ def history(request):
                             break
 
             if f.data['is_active'] == 'true':
+                context['last_active'] = 'true'
                 hist_list2 = []
                 for x in hist_list:
                     if x.active:
                         hist_list2.append(x)
                 hist_list = hist_list2[:100]
             elif f.data['is_active'] == 'false':
+                context['last_active'] = 'false'
                 hist_list2 = []
                 for x in hist_list:
                     if not x.active:
                         hist_list2.append(x)
                 hist_list = hist_list2[:100]
+            else:
+                context['last_active'] = 'none'
 
     else:
         hist_list = History.objects.all()[::-1]
@@ -147,6 +151,7 @@ def history(request):
         f = SearchForm()
 
     context['hist_list'] = hist_list
+
     context['form'] = f
     return render(request, 'history.html', context)
 
