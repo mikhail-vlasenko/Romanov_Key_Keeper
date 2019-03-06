@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Login</title>
+    <title>Войти</title>
     {% include "includes/head.html" %}
 </head>
 <body>
-{% include "includes/nav_bar.html" %}
-<div class="container-fluid">
-    <p>Войдите, чтобы просматривать все страницы сайта</p>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.username.label }} {{ form.username }}
-        <br>
-        {{ form.password.label }} {{ form.password }}
-        <br>
-        <input type="submit" value="Войти" class="btn btn-outline-success">
-    </form>
-    {% if error %}
-    <p>error</p>
-    {% endif %}
+    {% include "includes/nav_bar.html" %}
+    <div class="container-fluid">
+        <p>Войдите, чтобы просматривать все страницы сайта</p>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.username.label }} {{ form.username }}
+            <br>
+            {{ form.password.label }} {{ form.password }}
+            <br>
+            <input type="submit" value="Войти" class="btn btn-outline-success">
+        </form>
+        {% if error %}
+        <p>error</p>
+        {% endif %}
 
-    <p>{{ message }}</p>
-</div>
+        <p>{{ message }}</p>
+    </div>
 </body>
 </html>

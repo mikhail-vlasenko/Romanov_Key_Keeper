@@ -1,41 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Title</title>
+    <title>Зарегистрироваться</title>
     {% include "includes/head.html" %}
 </head>
 <body>
-{% include "includes/nav_bar.html" %}
-<div class="container-fluid">
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.username.label }} {{ form.username }}
-        <br>
-        {{ form.first_name.label }} {{ form.first_name }}
-        <br>
-        {{ form.last_name.label }} {{ form.last_name }}
-        <br>
-        {{ form.password.label }} {{ form.password }}
-        <br>
-        {{ form.password2.label }} {{ form.password2 }}
-        <br>
-        {{ form.card_id.label }} {{ form.card_id }}
-        <br>
-        {{ form.reg_code.label }} {{ form.reg_code }}
-        <br>
-        <input type="submit" value="Зарегистрироваться" class="btn btn-outline-success">
-    </form>
-    <p>{{message}}</p>
-    {% if error %}
-    <p>error</p>
-    {% endif %}
+    {% include "includes/nav_bar.html" %}
+    <div class="container-fluid">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.username.label }} {{ form.username }}
+            <br>
+            {{ form.first_name.label }} {{ form.first_name }}
+            <br>
+            {{ form.last_name.label }} {{ form.last_name }}
+            <br>
+            {{ form.password.label }} {{ form.password }}
+            <br>
+            {{ form.password2.label }} {{ form.password2 }}
+            <br>
+            {{ form.card_id.label }} {{ form.card_id }}
+            <br>
+            {{ form.reg_code.label }} {{ form.reg_code }}
+            <br>
+            <input type="submit" value="Зарегистрироваться" class="btn btn-outline-success">
+        </form>
+        <p>{{message}}</p>
+        {% if error %}
+        <p>error</p>
+        {% endif %}
 
-    <ul>
-        {% for user in users %}
-            <li>{{user}}</li>
-        {% endfor %}
-    </ul>
-</div>
-
+        <ul>
+            {% for user in users %}
+                <li>{{user}}</li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>

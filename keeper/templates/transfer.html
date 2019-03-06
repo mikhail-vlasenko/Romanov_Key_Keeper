@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <title>Transfer</title>
+    <title>Key Keeper</title>
     {% include "includes/head.html" %}
 </head>
 <body>
-{% include "includes/nav_bar.html" %}
+    {% include "includes/nav_bar.html" %}
     <div class="container-fluid">
         <p class="text-info">Вы зарегистрированны как {{ user_id }}</p>
         <form method="POST" action="">
@@ -24,7 +23,7 @@
             <form action="" method="POST">
                 {% csrf_token %}
                 <input class="btn-outline-success btn" type="submit" name="accept" value="Взять" />
-                <input class="btn-outline-success btn" type="submit" name="reject" value="Не брать" />
+                <input class="btn-outline-danger btn" type="submit" name="reject" value="Не брать" />
             </form>
         {% endif %}
 
@@ -46,14 +45,5 @@
             <p>error</p>
         {% endif %}
     </div>
-<script>
-    take_btn.onclick = function eat() {
-
-    }
-
-    reject_btn.onclick = function eat() {
-        document.getElementById("hp").innerHTML = Number(document.getElementById("hp").innerHTML) + 4;
-    }
-</script>
 </body>
 </html>

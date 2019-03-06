@@ -1,43 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>History</title>
+    <title>История</title>
     {% include "includes/head.html" %}
 </head>
 <body>
-{% load static %}
-{% include "includes/nav_bar.html" %}
-<div class="container-fluid">
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.key_num.label }} {{ form.key_num }}
-        {{ form.last_name.label }} {{ form.last_name }}
-        <select name="is_active">
-            <option value="none" {% if select_active == "none" %}selected{% endif %}>Не важно</option>
-            <option value="true" {% if select_active  == "true" %}selected{% endif %}>Ключ НЕ сдан</option>
-            <option value="false" {% if select_active  == "false" %}selected{% endif %}>Ключ сдан</option>
-            <option value="waiting" {% if select_active  == "waiting" %}selected{% endif %}>Ожидает передачи</option>
-        </select>
-        <input type="submit" value="Искать" class="btn btn-outline-success">
-    </form>
-    {{message}}
-    {% if hist_list %}
-            <h3>Таблица записей ключей</h3>
-            <table border="1">
-            <tr>
-                <th>№ кабинета</th>
-                <th>Пользователь</th>
-                <th>Дата и время</th>
-                <th>Состояние ключа</th>
-                <th>Время сдачи</th>
-            </tr>
-            {% for elem in hist_list %}
-                <tr><td>{{ elem.key }}</td> <td>{{ elem.user_id.last_name }} {{ elem.user_id.first_name }}</td> <td>{{ elem.time_cr }}</td> <td>{{elem.active}}</td> <td>{{elem.time_back}}</td> </tr>
-            {% endfor %}
-            </table>
-    {% else %}
-        <p>No history yet</p>
-    {% endif %}
-</div>
+    {% load static %}
+    {% include "includes/nav_bar.html" %}
+    <div class="container-fluid">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.key_num.label }} {{ form.key_num }}
+            {{ form.last_name.label }} {{ form.last_name }}
+            <select name="is_active">
+                <option value="none" {% if select_active == "none" %}selected{% endif %}>Не важно</option>
+                <option value="true" {% if select_active  == "true" %}selected{% endif %}>Ключ НЕ сдан</option>
+                <option value="false" {% if select_active  == "false" %}selected{% endif %}>Ключ сдан</option>
+                <option value="waiting" {% if select_active  == "waiting" %}selected{% endif %}>Ожидает передачи</option>
+            </select>
+            <input type="submit" value="Искать" class="btn btn-outline-success">
+        </form>
+        {{message}}
+        {% if hist_list %}
+                <h3>Таблица записей ключей</h3>
+                <table border="1">
+                <tr>
+                    <th>№ кабинета</th>
+                    <th>Пользователь</th>
+                    <th>Дата и время</th>
+                    <th>Состояние ключа</th>
+                    <th>Время сдачи</th>
+                </tr>
+                {% for elem in hist_list %}
+                    <tr><td>{{ elem.key }}</td> <td>{{ elem.user_id.last_name }} {{ elem.user_id.first_name }}</td> <td>{{ elem.time_cr }}</td> <td>{{elem.active}}</td> <td>{{elem.time_back}}</td> </tr>
+                {% endfor %}
+                </table>
+        {% else %}
+            <p>No history yet</p>
+        {% endif %}
+    </div>
 </body>
 </html>
