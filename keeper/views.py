@@ -24,24 +24,50 @@ def index(request):
     context = {}
     if request.method == 'POST':
         f = TransferForm(request.POST)
-        if f.is_valid():
-            try:
-                tran_user = CustomUser.objects.filter(username=f.data['username']).get()
-                if tran_user != request.user.username:
-                    try:
-                        hist2 = History.objects.filter(key=f.data['key_num'], user_id=request.user, active='Не сдан').get()
-                        hist2.active = "Ожидает передачи"
-                        hist2.save()
-                        tran_user.user_tran_last = str(request.user.username)
-                        tran_user.key_tran_last = f.data['key_num']
-                        tran_user.save()
-                        context['message'] = 'Ожидайте подтверждения'
-                    except ObjectDoesNotExist:
-                        context['message'] = 'У вас нет такого ключа'
-                else:
-                    context['message'] = 'Нельзя передать ключ себе'
-            except ObjectDoesNotExist:
-                context['message'] = 'Нет такого пользователя'
+        if 'transfer_req' in request.POST:
+            if f.is_valid():
+                try:
+                    tran_user = CustomUser.objects.filter(username=f.data['username']).get()
+                    if tran_user != request.user.username:
+                        try:
+                            hist2 = History.objects.filter(key=f.data['key_num'], user_id=request.user,
+                                                           active='Не сдан').get()
+                            hist2.active = 'Ожидает передачи'
+                            hist2.save()
+                            tran_user.user_tran_last = str(request.user.username)
+                            tran_user.key_tran_last = f.data['key_num']
+                            tran_user.save()
+                            context['message'] = 'Ожидайте подтверждения'
+                        except ObjectDoesNotExist:
+                            context['message'] = 'У вас нет такого ключа'
+                    else:
+                        context['message'] = 'Нельзя передать ключ себе'
+                except ObjectDoesNotExist:
+                    context['message'] = 'Нет такого пользователя'
+
+        elif 'accept' in request.POST:
+            user_tran = CustomUser.objects.filter(username=request.user.user_tran_last).get()
+            hist2 = History.objects.filter(key=request.user.key_tran_last, user_id=user_tran,
+                                           active='Ожидает передачи').get()
+            hist2.active = 'Сдан'
+            hist2.save()
+            hist = History(key=request.user.key_tran_last, user_id=request.user, active='Не сдан')
+            hist.save()
+            request.user.key_tran_last = -1
+            request.user.user_tran_last = 'никто'
+            request.user.save()
+            context['message'] = 'Вы получили ключ'
+
+        elif 'reject' in request.POST:
+            user_tran = CustomUser.objects.filter(username=request.user.user_tran_last).get()
+            hist2 = History.objects.filter(key=request.user.key_tran_last, user_id=user_tran,
+                                           active='Ожидает передачи').get()
+            hist2.active = 'Не сдан'
+            hist2.save()
+            request.user.key_tran_last = -1
+            request.user.user_tran_last = 'никто'
+            request.user.save()
+            context['message'] = 'Вы отказались получать ключ'
 
     else:
         f = TransferForm()
@@ -75,7 +101,7 @@ def card_take(request):
             try:
                 card_user = CustomUser.objects.filter(card_id=f.data['card']).get()
                 try:
-                    hist_unit = History.objects.filter(key=f.data['key_num'], user_id=card_user, active=True).get()
+                    hist_unit = History.objects.filter(key=f.data['key_num'], user_id=card_user, active='Не сдан').get()
                     hist_unit.active = 'Сдан'
                     hist_unit.time_back = datetime.datetime.now()
                     hist_unit.save()
@@ -84,7 +110,7 @@ def card_take(request):
                     hist = History(key=f.data['key_num'], time_cr=timezone.now(), user_id=card_user)
                     hist.active = 'Не сдан'
                     hist.save()
-                    context['message'] = 'Вы взяли ключ!'
+                    context['message'] = 'Пользователь ' + str(card_user.username) + ' взял ключ №' + str(f.data['key_num'])
             except ObjectDoesNotExist:
                 context['message'] = 'Нет такой карты'
 
@@ -147,6 +173,13 @@ def history(request):
                 hist_list2 = []
                 for x in hist_list:
                     if x.active == 'Сдан':
+                        hist_list2.append(x)
+                hist_list = hist_list2[:100]
+            elif f.data['is_active'] == 'waiting':
+                context['select_active'] = 'waiting'
+                hist_list2 = []
+                for x in hist_list:
+                    if x.active == 'Ожидает передачи':
                         hist_list2.append(x)
                 hist_list = hist_list2[:100]
             else:
