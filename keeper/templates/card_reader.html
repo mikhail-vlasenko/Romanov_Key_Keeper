@@ -7,9 +7,10 @@
 <body>
     {% include "includes/nav_bar.html" %}
     <div class="container-fluid">
+        <p class="text-info">Приложите свою карту к считывателю, наберите номер ключа и нажмите Enter</p>
         <form method="POST">
             {% csrf_token %}
-            {{ form.card.label }} {{ form.card }}
+            <label for="card">{{ form.card.label }} </label> <input type="text" id="card" name="card" autofocus>
             <br>
             {{ form.key_num.label }} {{ form.key_num }}
             <br>

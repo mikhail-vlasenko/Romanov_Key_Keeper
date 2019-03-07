@@ -50,6 +50,7 @@ def index(request):
             hist2 = History.objects.filter(key=request.user.key_tran_last, user_id=user_tran,
                                            active='Ожидает передачи').get()
             hist2.active = 'Сдан'
+            hist2.time_back = datetime.datetime.now()
             hist2.save()
             hist = History(key=request.user.key_tran_last, user_id=request.user, active='Не сдан')
             hist.save()
