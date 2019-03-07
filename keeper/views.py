@@ -9,6 +9,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 
 REG_CODE = '12345'  # code to enable registration
+PASSWORD_CHANGE_CODE = '54321'  # code to change password
 
 
 @login_required
@@ -111,7 +112,8 @@ def card_take(request):
                     hist = History(key=f.data['key_num'], time_cr=timezone.now(), user_id=card_user)
                     hist.active = 'Не сдан'
                     hist.save()
-                    context['message'] = 'Пользователь ' + str(card_user.username) + ' взял ключ №' + str(f.data['key_num'])
+                    context['message'] = 'Пользователь ' + str(card_user.username) +\
+                                         ' взял ключ №' + str(f.data['key_num'])
             except ObjectDoesNotExist:
                 context['message'] = 'Нет такой карты'
 
@@ -208,7 +210,7 @@ def register(request):
     context = {}
     if request.method == 'POST':
         f = RegisterForm(request.POST)
-        if f.is_valid() and f.data['password'] == f.data['password2'] and f.data['reg_code'] == REG_CODE:
+        if f.is_valid() and f.data['password'] == f.data['password2'] and f.data['reg_code'] == PASSWORD_CHANGE_CODE:
             try:
                 if CustomUser.objects.filter(card_id=f.data['card_id']).exists():
                     context['message'] = 'Такая карта уже есть'
@@ -264,6 +266,40 @@ def login_user(request):
 
     context['form'] = f
     return render(request, 'login.html', context)
+
+
+def change_pass(request):
+    """
+            Change password page rendering function
+            Lets users to change their passwords on the website
+
+            :param request: request object
+            :return: request answer object, contains *HTML* file
+            :rtype: :class: `django.http.HttpResponse`
+        """
+    context = {}
+    if request.method == 'POST':
+        f = ChangePassForm(request.POST)
+        if f.is_valid():
+            if f.data['password'] == f.data['password2']:
+                if f.data['pass_code'] == PASSWORD_CHANGE_CODE:
+                    user = CustomUser.objects.filter(username=f.data['username']).get()
+                    user.set_password(f.data['password'])
+                    user.save()
+                    if user is not None:
+                        login(request, user)
+                        return HttpResponseRedirect('/')
+
+                else:
+                    context['message'] = 'Код для изменения пароля не правильный'
+            else:
+                context['message'] = 'Пароли не совпадают'
+
+    else:
+        f = ChangePassForm()
+
+    context['form'] = f
+    return render(request, 'change_pass.html', context)
 
 
 def logout_user(request):

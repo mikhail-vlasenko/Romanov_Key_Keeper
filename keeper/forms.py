@@ -16,6 +16,13 @@ class LoginForm(forms.Form):
     password = forms.CharField(label='Пароль:', max_length=100, required=True)
 
 
+class ChangePassForm(forms.Form):
+    username = forms.CharField(label='Имя пользователя:', max_length=100, required=True)
+    password = forms.CharField(label='Новый пароль:', max_length=100, required=True)
+    password2 = forms.CharField(label='Новый пароль снова:', max_length=100, required=True)
+    pass_code = forms.CharField(label='Код для замены пароля:', max_length=100, required=True)
+
+
 class CardForm(forms.Form):
     card = forms.IntegerField(label='Номер карты:', required=True)
     key_num = forms.IntegerField(label='Номер кабинета:', max_value=1000, required=True)
