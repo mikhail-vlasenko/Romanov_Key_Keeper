@@ -10,7 +10,7 @@
         <p class="text-info">Зарегистрируйтесь, чтобы иметь доступ ко всем функциям</p>
         <form method="POST">
             {% csrf_token %}
-            <label for="username">{{ form.username.label }} </label> <input type="text" id="username" name="username" autofocus>
+            <label for="username">{{ form.username.label }} </label> <input type="text" id="username" name="username">
             <br>
             {{ form.first_name.label }} {{ form.first_name }}
             <br>

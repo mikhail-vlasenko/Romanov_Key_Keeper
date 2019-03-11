@@ -109,7 +109,7 @@ def card_take(request):
                     hist_unit.save()
                     context['message'] = 'Вы отдали ключ!'
                 except ObjectDoesNotExist:
-                    hist = History(key=f.data['key_num'], time_cr=timezone.now(), user_id=card_user)
+                    hist = History(key=f.data['key_num'], time_cr=datetime.datetime.now(), user_id=card_user)
                     hist.active = 'Не сдан'
                     hist.save()
                     context['message'] = 'Пользователь ' + str(card_user.username) +\
@@ -210,7 +210,7 @@ def register(request):
     context = {}
     if request.method == 'POST':
         f = RegisterForm(request.POST)
-        if f.is_valid() and f.data['password'] == f.data['password2'] and f.data['reg_code'] == PASSWORD_CHANGE_CODE:
+        if f.is_valid() and f.data['password'] == f.data['password2'] and f.data['reg_code'] == REG_CODE:
             try:
                 if CustomUser.objects.filter(card_id=f.data['card_id']).exists():
                     context['message'] = 'Такая карта уже есть'
@@ -224,7 +224,7 @@ def register(request):
                     if user is not None:
                         login(request, user)
                         return HttpResponseRedirect('/')
-            except:  #IntegrityError???
+            except:  # IntegrityError???
                 context['message'] = 'Такое имя пользователя уже есть'
 
         elif f.data['password'] != f.data['password2']:
@@ -268,6 +268,8 @@ def login_user(request):
     return render(request, 'login.html', context)
 
 
+'''
+                            Not needed actually
 def change_pass(request):
     """
             Change password page rendering function
@@ -300,6 +302,7 @@ def change_pass(request):
 
     context['form'] = f
     return render(request, 'change_pass.html', context)
+'''
 
 
 def logout_user(request):
