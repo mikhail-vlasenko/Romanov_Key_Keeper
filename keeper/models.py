@@ -9,8 +9,8 @@ class CustomUser(AbstractUser):
     User model
 
     :param card_id: Number of card
-    :param key_tran_last: Number of room, which was offered to receive last. If there is no such it = -1
-    :param user_tran_last: Username of user, who offered to receive a key last. If there is no such it = "никто"
+    :param key_tran_last: Number of room, which was offered to receive last. If there is no such, it = -1
+    :param user_tran_last: Username of user, who offered to receive a key last. If there is no such, it = "никто"
     """
     card_id = models.IntegerField(default=8000000000)
     key_tran_last = models.IntegerField(default=-1)

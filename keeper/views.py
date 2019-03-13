@@ -7,8 +7,10 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db import IntegrityError
+import pytz
 
 
+timezone = pytz.timezone("Europe/Moscow")
 REG_CODE = '12345'  # code to enable registration
 PASSWORD_CHANGE_CODE = '54321'  # code to change password
 
