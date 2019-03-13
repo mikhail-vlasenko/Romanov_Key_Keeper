@@ -6,6 +6,7 @@ from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, HttpResponseRedirect
+from django.db import IntegrityError
 
 
 REG_CODE = '12345'  # code to enable registration
@@ -29,12 +30,21 @@ def index(request):
             if f.is_valid():
                 try:
                     tran_user = CustomUser.objects.filter(username=f.data['username']).get()
-                    if tran_user != request.user.username:
+                    if tran_user != request.user:
                         try:
-                            hist2 = History.objects.filter(key=f.data['key_num'], user_id=request.user,
-                                                           active='Не сдан').get()
-                            hist2.active = 'Ожидает передачи'
-                            hist2.save()
+                            if tran_user.key_tran_last != -1:
+                                tran_user_last = CustomUser.objects.filter(username=tran_user.user_tran_last).get()
+                                hist = History.objects.filter(key=tran_user.key_tran_last, user_id=tran_user_last,
+                                                              active='Ожидает передачи').get()
+                                hist.active = 'Не сдан'
+                                hist.save()
+                                tran_user.key_tran_last = -1
+                                tran_user.user_tran_last = 'никто'
+                                tran_user.save()
+                            hist = History.objects.filter(key=f.data['key_num'], user_id=request.user,
+                                                          active='Не сдан').get()
+                            hist.active = 'Ожидает передачи'
+                            hist.save()
                             tran_user.user_tran_last = str(request.user.username)
                             tran_user.key_tran_last = f.data['key_num']
                             tran_user.save()
@@ -48,11 +58,11 @@ def index(request):
 
         elif 'accept' in request.POST:
             user_tran = CustomUser.objects.filter(username=request.user.user_tran_last).get()
-            hist2 = History.objects.filter(key=request.user.key_tran_last, user_id=user_tran,
-                                           active='Ожидает передачи').get()
-            hist2.active = 'Сдан'
-            hist2.time_back = datetime.datetime.now()
-            hist2.save()
+            hist = History.objects.filter(key=request.user.key_tran_last, user_id=user_tran,
+                                          active='Ожидает передачи').get()
+            hist.active = 'Сдан'
+            hist.time_back = datetime.datetime.now()
+            hist.save()
             hist = History(key=request.user.key_tran_last, user_id=request.user, active='Не сдан')
             hist.save()
             request.user.key_tran_last = -1
@@ -62,10 +72,10 @@ def index(request):
 
         elif 'reject' in request.POST:
             user_tran = CustomUser.objects.filter(username=request.user.user_tran_last).get()
-            hist2 = History.objects.filter(key=request.user.key_tran_last, user_id=user_tran,
-                                           active='Ожидает передачи').get()
-            hist2.active = 'Не сдан'
-            hist2.save()
+            hist = History.objects.filter(key=request.user.key_tran_last, user_id=user_tran,
+                                          active='Ожидает передачи').get()
+            hist.active = 'Не сдан'
+            hist.save()
             request.user.key_tran_last = -1
             request.user.user_tran_last = 'никто'
             request.user.save()
@@ -210,27 +220,27 @@ def register(request):
     context = {}
     if request.method == 'POST':
         f = RegisterForm(request.POST)
-        if f.is_valid() and f.data['password'] == f.data['password2'] and f.data['reg_code'] == REG_CODE:
-            try:
-                if CustomUser.objects.filter(card_id=f.data['card_id']).exists():
-                    context['message'] = 'Такая карта уже есть'
-                else:
-                    user = CustomUser.objects.create_user(username=f.data['username'], password=f.data['password'],
-                                                          card_id=f.data['card_id'], last_name=f.data['last_name'],
-                                                          first_name=f.data['first_name'])
-                    user.save()
-                    context['message'] = 'Вы успешно зарегистрированы!'
-                    user = authenticate(request, username=f.data['username'], password=f.data['password'])
-                    if user is not None:
-                        login(request, user)
-                        return HttpResponseRedirect('/')
-            except:  # IntegrityError???
-                context['message'] = 'Такое имя пользователя уже есть'
-
-        elif f.data['password'] != f.data['password2']:
+        if f.is_valid() and f.data['password'] == f.data['password2']:
+            if f.data['reg_code'] == REG_CODE:
+                try:
+                    if CustomUser.objects.filter(card_id=f.data['card_id']).exists():
+                        context['message'] = 'Такая карта уже есть'
+                    else:
+                        user = CustomUser.objects.create_user(username=f.data['username'], password=f.data['password'],
+                                                              card_id=f.data['card_id'], last_name=f.data['last_name'],
+                                                              first_name=f.data['first_name'])
+                        user.save()
+                        context['message'] = 'Вы успешно зарегистрированы!'
+                        user = authenticate(request, username=f.data['username'], password=f.data['password'])
+                        if user is not None:
+                            login(request, user)
+                            return HttpResponseRedirect('/')
+                except IntegrityError:
+                    context['message'] = 'Такое имя пользователя уже есть'
+            else:
+                context['message'] = 'Код для регистрации не правильный'
+        else:
             context['message'] = 'Пароли не совпадают'
-        elif f.data['reg_code'] != REG_CODE:
-            context['message'] = 'Код для регистрации не правильный'
 
     else:
         f = RegisterForm()

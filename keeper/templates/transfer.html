@@ -19,7 +19,7 @@
         <p>{{ message }}</p>
 
         {% if key_receive %}
-            <p> Пользователь {{ user_receive }} запрашивает разрешение на передачу вам ключа от кабинета №{{ key_receive }}</p>
+            <p> Пользователь {{ user_receive }} запрашивает разрешение на передачу Вам ключа от кабинета №{{ key_receive }}</p>
             <form action="" method="POST">
                 {% csrf_token %}
                 <input class="btn-outline-success btn" type="submit" name="accept" value="Взять" />
@@ -28,7 +28,7 @@
         {% endif %}
 
         {% if key_list %}
-            <p>Ваши ключи:</p>
+            <h5 class="text-info">Ваши ключи:</h5>
             <table border="1">
             <tr>
                 <th>Комната</th>
@@ -39,7 +39,7 @@
             {% endfor %}
             </table>
         {% else %}
-            <p>На вас не записано ни одного ключа</p>
+            <p>На Вас не записано ни одного ключа</p>
         {% endif %}
         {% if error %}
             <p>error</p>
