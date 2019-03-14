@@ -214,6 +214,7 @@ def register(request):
     """
         Register page rendering function
         Lets users to register on the website
+        Variable REG_CODE does not let strangers to register
 
         :param request: request object
         :return: request answer object, contains *HTML* file
