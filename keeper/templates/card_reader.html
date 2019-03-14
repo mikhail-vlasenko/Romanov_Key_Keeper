@@ -10,9 +10,9 @@
         <p class="text-info">Приложите свою карту к считывателю, наберите номер ключа и нажмите Enter</p>
         <form method="POST">
             {% csrf_token %}
-            <label for="card">{{ form.card.label }} </label> <input type="text" id="card" name="card" autofocus>
+            <label for="card">{{ form.card.label }} </label> <input type="text" id="card" name="card" required autofocus>
             <br>
-            {{ form.key_num.label }} {{ form.key_num }}
+            <label for="key_num">{{ form.key_num.label }} </label> <input type="number" id="key_num" name="key_num" required>
             <br>
             <input type="submit" value="Взять/Отдать" class="btn btn-outline-success">
         </form>

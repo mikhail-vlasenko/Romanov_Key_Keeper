@@ -8,7 +8,7 @@ class RegisterForm(forms.Form):
     password = forms.CharField(label='Пароль:', max_length=100, required=True)
     password2 = forms.CharField(label='Пароль снова:', max_length=100, required=True)
     card_id = forms.IntegerField(label='Номер карты:', required=True)
-    reg_code = forms.CharField(label='Код для регистрации:', max_length=100, required=True)
+    # reg_code = forms.CharField(label='Код для регистрации:', max_length=100, required=True)
 
 
 class LoginForm(forms.Form):
