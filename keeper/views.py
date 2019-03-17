@@ -335,4 +335,4 @@ def about(request):
         :rtype: :class: `django.http.HttpResponse`
     """
     context = {}
-    return render(request, '_build/html/doc_index.html', context)
+    return render(request, 'doc_index.html', context)
