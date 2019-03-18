@@ -36,6 +36,7 @@ STATICFILES_DIRS = (
 )
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static_debug')
 STATIC_URL = '/static/'
+STATIC_ROOT='static'
 
 # Application definition
 
