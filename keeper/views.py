@@ -62,15 +62,20 @@ def index(request):
             user_tran = CustomUser.objects.filter(username=request.user.user_tran_last).get()
             hist = History.objects.filter(key=request.user.key_tran_last, user_id=user_tran,
                                           active='Ожидает передачи').get()
-            hist.active = 'Сдан'
-            hist.time_back = datetime.datetime.now()
-            hist.save()
-            hist = History(key=request.user.key_tran_last, user_id=request.user, active='Не сдан')
-            hist.save()
-            request.user.key_tran_last = -1
-            request.user.user_tran_last = 'никто'
-            request.user.save()
-            context['message'] = 'Вы получили ключ'
+            try:
+                hist_check = History.objects.filter(key=request.user.key_tran_last, user_id=request.user,
+                                                    active='Не сдан').get()
+                context['message'] = 'У вас уже есть ключ от этого кабинета'
+            except ObjectDoesNotExist:
+                hist.active = 'Сдан'
+                hist.time_back = datetime.datetime.now()
+                hist.save()
+                hist = History(key=request.user.key_tran_last, user_id=request.user, active='Не сдан')
+                hist.save()
+                request.user.key_tran_last = -1
+                request.user.user_tran_last = 'никто'
+                request.user.save()
+                context['message'] = 'Вы получили ключ'
 
         elif 'reject' in request.POST:
             user_tran = CustomUser.objects.filter(username=request.user.user_tran_last).get()
@@ -95,6 +100,7 @@ def index(request):
 
     context['form'] = f
     context['user_id'] = str(request.user.last_name) + ' ' + str(request.user.first_name)
+    context['user_name'] = str(request.user.username)
     return render(request, 'transfer.html', context)
 
 
@@ -335,4 +341,4 @@ def about(request):
         :rtype: :class: `django.http.HttpResponse`
     """
     context = {}
-    return render(request, '_build/html/doc_index.html', context)
+    return render(request, 'doc_cap.html', context)
