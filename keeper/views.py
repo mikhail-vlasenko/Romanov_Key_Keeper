@@ -154,6 +154,12 @@ def history(request):
     """
     context = {}
     hist_list = []
+    hist_min_time = 0
+    for x in History.objects.all():
+        if x.active == 'Не сдан':
+            hist_min_time = x
+            break
+
     if request.method == 'POST':
         f = SearchForm(request.POST)
         if f.is_valid():
@@ -212,6 +218,7 @@ def history(request):
         f = SearchForm()
 
     context['hist_list'] = hist_list
+    context['min_time_elem'] = hist_min_time
     context['form'] = f
     return render(request, 'history.html', context)
 
