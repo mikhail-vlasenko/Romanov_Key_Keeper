@@ -33,12 +33,26 @@ class History(models.Model):
     active = models.CharField(max_length=100, default='Не сдан')
     time_back = models.DateTimeField(default=datetime.datetime.min)
 
-    def hour(self):
+    def month_cr(self):
+        return self.time_cr.strftime('%m')
+
+    def date_cr(self):
+        return self.time_cr.strftime('%d')
+
+    def hour_cr(self):
         return self.time_cr.strftime('%H')
 
-    def minute(self):
+    def minute_cr(self):
         return self.time_cr.strftime('%M')
 
-    def second(self):
-        return self.time_cr.strftime('%S')
+    def month_b(self):
+        return self.time_back.strftime('%m')
 
+    def date_b(self):
+        return self.time_back.strftime('%d')
+
+    def hour_b(self):
+        return self.time_back.strftime('%H')
+
+    def minute_b(self):
+        return self.time_back.strftime('%M')
