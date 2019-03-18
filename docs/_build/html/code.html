@@ -262,6 +262,7 @@ Lets users to register on the website</p>
 <dt id="keeper.models.History">
 <em class="property">class </em><code class="descclassname">keeper.models.</code><code class="descname">History</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#keeper.models.History" title="Ссылка на это определение">¶</a></dt>
 <dd><p>Model for storing key history</p>
+<p>Contains functions to get minute, hour, date and month</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -270,7 +271,7 @@ Lets users to register on the website</p>
 <li><strong>key</strong> – Number of key</li>
 <li><strong>time_cr</strong> – Date of creation</li>
 <li><strong>user_id</strong> – User, who took a key</li>
-<li><strong>active</strong> – Is user still using key</li>
+<li><strong>active</strong> – State of the key</li>
 <li><strong>time_back</strong> – Date of return</li>
 </ul>
 </td>

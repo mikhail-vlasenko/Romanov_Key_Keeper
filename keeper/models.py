@@ -21,10 +21,12 @@ class History(models.Model):
     """
     Model for storing key history
 
+    Contains functions to get minute, hour, date and month
+
     :param key: Number of key
     :param time_cr: Date of creation
     :param user_id: User, who took a key
-    :param active: Is user still using key
+    :param active: State of the key
     :param time_back: Date of return
     """
     key = models.IntegerField()
