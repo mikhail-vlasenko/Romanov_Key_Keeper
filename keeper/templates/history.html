@@ -31,7 +31,10 @@
                     <th>Время сдачи</th>
                 </tr>
                 {% for elem in hist_list %}
-                    <tr><td>{{ elem.key }}</td> <td>{{ elem.user_id.last_name }} {{ elem.user_id.first_name }}</td> <td>{{ elem.time_cr }}</td> <td>{{elem.active}}</td> <td>{{elem.time_back}}</td> </tr>
+                    <tr><td>{{ elem.key }}</td> <td>{{ elem.user_id.last_name }} {{ elem.user_id.first_name }}</td>
+                        <td>{{ elem.month_cr }}.{{ elem.date_cr }}, {{ elem.hour_cr }}:{{ elem.minute_cr }}</td>
+                        <td>{{elem.active}}</td>
+                        <td>{% if elem.time_back == min_time_elem.time_back %} - {% else %} {{ elem.month_b }}.{{ elem.date_b }}, {{ elem.hour_b }}:{{ elem.minute_b }}{% endif %}</td> </tr>
                 {% endfor %}
                 </table>
         {% else %}
