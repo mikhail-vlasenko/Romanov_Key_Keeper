@@ -45,7 +45,7 @@ class History(models.Model):
         return self.time_cr.strftime('%d')
 
     def hour_cr(self):
-        return self.time_cr.strftime('%H')
+        return str((int(self.time_cr.strftime('%H')) + 3) % 24)  # it is a bug here (some keys may date for yesterday)
 
     def minute_cr(self):
         return self.time_cr.strftime('%M')
@@ -57,7 +57,7 @@ class History(models.Model):
         return self.time_back.strftime('%d')
 
     def hour_b(self):
-        return self.time_back.strftime('%H')
+        return str((int(self.time_back.strftime('%H')) + 3) % 24)
 
     def minute_b(self):
         return self.time_back.strftime('%M')
