@@ -13,6 +13,7 @@ import pytz
 timezone = pytz.timezone("Europe/Moscow")
 REG_CODE = '12345'  # code to enable registration
 PASSWORD_CHANGE_CODE = '54321'  # code to change password
+CARD_TAKE_USERS = ['Guard', 'romanov_admin']  # who is allowed to use card reader
 
 
 @login_required
@@ -118,22 +119,26 @@ def card_take(request):
     if request.method == 'POST':
         f = CardForm(request.POST)
         if f.is_valid():
-            try:
-                card_user = CustomUser.objects.filter(card_id=f.data['card']).get()
+            if request.user.username in CARD_TAKE_USERS:
                 try:
-                    hist_unit = History.objects.filter(key=f.data['key_num'], user_id=card_user, active='Не сдан').get()
-                    hist_unit.active = 'Сдан'
-                    hist_unit.time_back = datetime.datetime.now()
-                    hist_unit.save()
-                    context['message'] = 'Вы отдали ключ!'
+                    card_user = CustomUser.objects.filter(card_id=f.data['card']).get()
+                    try:
+                        hist_unit = History.objects.filter(key=f.data['key_num'], user_id=card_user, active='Не сдан').get()
+                        hist_unit.active = 'Сдан'
+                        hist_unit.time_back = datetime.datetime.now()
+                        hist_unit.save()
+                        context['message'] = 'Пользователь ' + str(card_user.username) +\
+                                             ' ОТДАЛ ключ от кабинета №' + str(f.data['key_num'])
+                    except ObjectDoesNotExist:
+                        hist = History(key=f.data['key_num'], time_cr=datetime.datetime.now(), user_id=card_user)
+                        hist.active = 'Не сдан'
+                        hist.save()
+                        context['message'] = 'Пользователь ' + str(card_user.username) +\
+                                             ' ВЗЯЛ ключ от кабинета №' + str(f.data['key_num'])
                 except ObjectDoesNotExist:
-                    hist = History(key=f.data['key_num'], time_cr=datetime.datetime.now(), user_id=card_user)
-                    hist.active = 'Не сдан'
-                    hist.save()
-                    context['message'] = 'Пользователь ' + str(card_user.username) +\
-                                         ' взял ключ №' + str(f.data['key_num'])
-            except ObjectDoesNotExist:
-                context['message'] = 'Нет такой карты'
+                    context['message'] = 'Нет такой карты'
+            else:
+                context['message'] = 'У вас не достаточно прав. Вы можете использовать карту только на охране'
 
     else:
         f = CardForm()

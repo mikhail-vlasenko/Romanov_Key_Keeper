@@ -7,7 +7,7 @@
 <body>
     {% include "includes/nav_bar.html" %}
     <div class="container-fluid">
-        <a class="navbar-brand" href="https://romanovkey.ru/docs/_build/html/overview.html#id6">Как пользоваться</a>
+        <a class="navbar-brand" href="https://romanovkey.ru/docs/_build/html/overview.html#id6"><u>Как пользоваться</u></a>
         <p class="text-info">Вы зарегистрированны как <strong>{{ user_id }}</strong></p>
         <p class="text-info">Ваше имя пользователя <strong>{{ user_name }}</strong></p>
         <form method="POST" action="">
@@ -34,10 +34,11 @@
             <table border="1">
             <tr>
                 <th>Комната</th>
-                <th>Дата и время</th>
+                <th>Время взятия</th>
             </tr>
             {% for elem in key_list %}
-                <tr><td>{{ elem.key }}</td> <td>{{ elem.time_cr }}</td></tr>
+                <tr><td>{{ elem.key }}</td>
+                    <td>{{ elem.month_cr }}.{{ elem.date_cr }}, {{ elem.hour_cr }}:{{ elem.minute_cr }}</td></tr>
             {% endfor %}
             </table>
         {% else %}

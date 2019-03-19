@@ -7,7 +7,7 @@
 <body>
     {% include "includes/nav_bar.html" %}
     <div class="container-fluid">
-        <a class="navbar-brand" href="https://romanovkey.ru/docs/_build/html/overview.html">Как пользоваться</a>
+        <a class="navbar-brand" href="https://romanovkey.ru/docs/_build/html/overview.html"><u>Как пользоваться</u></a>
         <p class="text-info">Зарегистрируйтесь, чтобы иметь доступ ко всем функциям</p>
         <form method="POST">
             {% csrf_token %}
@@ -29,7 +29,7 @@
         {% if error %}
         <p>error</p>
         {% endif %}
-
+        <p class="text-info">Зарегистрированные пользователи:</p>
         <ul>
             {% for user in users %}
                 <li>{{user}}</li>

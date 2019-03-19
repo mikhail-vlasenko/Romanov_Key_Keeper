@@ -25,7 +25,7 @@ SECRET_KEY = '-88oqemnwiiv@tbu!yo&k^-a=8&cludrn&5x!i)=lho@1@bov#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['romanovkey.ru','www.romanovkey.ru']
+ALLOWED_HOSTS = ['romanovkey.ru', 'www.romanovkey.ru', '127.0.0.1']
 
 AUTH_USER_MODEL = 'keeper.CustomUser'
 
