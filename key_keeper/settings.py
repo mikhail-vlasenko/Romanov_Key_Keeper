@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '-88oqemnwiiv@tbu!yo&k^-a=8&cludrn&5x!i)=lho@1@bov#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['romanovkey.ru', 'www.romanovkey.ru', '127.0.0.1']
 

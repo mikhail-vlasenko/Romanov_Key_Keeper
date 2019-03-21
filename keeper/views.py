@@ -7,10 +7,9 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db import IntegrityError
-import pytz
 
 
-timezone = pytz.timezone("Europe/Moscow")
+# timezone = pytz.timezone("Europe/Moscow")
 REG_CODE = '12345'  # code to enable registration
 PASSWORD_CHANGE_CODE = '54321'  # code to change password
 CARD_TAKE_USERS = ['Guard', 'romanov_admin']  # who is allowed to use card reader
@@ -252,8 +251,7 @@ def register(request):
                     context['message'] = 'Вы успешно зарегистрированы!'
                     user = authenticate(request, username=f.data['username'], password=f.data['password'])
                     if user is not None:
-                        login(request, user)
-                        return HttpResponseRedirect('/')
+                        return HttpResponseRedirect('/card')
             except IntegrityError:
                 context['message'] = 'Такое имя пользователя уже есть'
         else:
