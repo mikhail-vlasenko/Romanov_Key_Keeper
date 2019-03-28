@@ -146,20 +146,21 @@ def card_take(request):
     return render(request, 'card_reader.html', context)
 
 
-def history(request):
+def history(request, page_id=1):
     """
     History page rendering function
     Lets users to see history or search through it
     No login required
 
     :param request: request object
+    :param page_id: page number, influence displaying interval
     :return: request answer object, contains *HTML* file
     :rtype: :class: `django.http.HttpResponse`
     """
     context = {}
     hist_list = []
     hist_min_time = 0
-    for x in History.objects.all():
+    for x in History.objects.all()[::-1]:
         if x.active == 'Не сдан':
             hist_min_time = x
             break
@@ -168,61 +169,55 @@ def history(request):
         f = SearchForm(request.POST)
         if f.is_valid():
             hist_list = History.objects.all()[::-1]
-            hist_list = hist_list[:100]
-            if f.data['key_num'] != '' and f.data['last_name'] != '':
-                hist_list = []
-                count = 0
-                for x in History.objects.all()[::-1]:
-                    if x.user_id.last_name == f.data['last_name'] and x.key == int(f.data['key_num']):
-                        hist_list.append(x)
-                        count += 1
-                        if count == 100:
-                            break
 
-            elif f.data['key_num'] != '':
-                hist_list = History.objects.filter(key=f.data['key_num'])[::-1]
-                hist_list = hist_list[:100]
-            elif f.data['last_name'] != '':
-                hist_list = []
-                count = 0
-                for x in History.objects.all()[::-1]:
+            if f.data['key_num'] != '':
+                hist_list2 = []
+                for x in hist_list:
+                    if x.key == int(f.data['key_num']):
+                        hist_list2.append(x)
+                hist_list = hist_list2
+            if f.data['last_name'] != '':
+                hist_list3 = []
+                for x in hist_list:
                     if x.user_id.last_name == f.data['last_name']:
-                        hist_list.append(x)
-                        count += 1
-                        if count == 100:
-                            break
+                        hist_list3.append(x)
+                hist_list = hist_list3
 
             if f.data['is_active'] == 'true':
                 context['select_active'] = 'true'
-                hist_list2 = []
+                hist_list4 = []
                 for x in hist_list:
                     if x.active == 'Не сдан':
-                        hist_list2.append(x)
-                hist_list = hist_list2[:100]
+                        hist_list4.append(x)
+                hist_list = hist_list4
             elif f.data['is_active'] == 'false':
                 context['select_active'] = 'false'
-                hist_list2 = []
+                hist_list5 = []
                 for x in hist_list:
                     if x.active == 'Сдан':
-                        hist_list2.append(x)
-                hist_list = hist_list2[:100]
+                        hist_list5.append(x)
+                hist_list = hist_list5
             elif f.data['is_active'] == 'waiting':
                 context['select_active'] = 'waiting'
-                hist_list2 = []
+                hist_list6 = []
                 for x in hist_list:
                     if x.active == 'Ожидает передачи':
-                        hist_list2.append(x)
-                hist_list = hist_list2[:100]
+                        hist_list6.append(x)
+                hist_list = hist_list6
             else:
                 context['select_active'] = 'none'
 
     else:
         hist_list = History.objects.all()[::-1]
-        hist_list = hist_list[:100]
         f = SearchForm()
 
-    context['hist_list'] = hist_list
+    context['hist_list'] = hist_list[(page_id - 1) * 100:(page_id * 100)]
     context['min_time_elem'] = hist_min_time
+    context['page_id_p'] = page_id + 1  # can be improved
+    if page_id != 1:
+        context['page_id_m'] = page_id - 1
+    else:
+        context['page_id_m'] = page_id
     context['form'] = f
     return render(request, 'history.html', context)
 

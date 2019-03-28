@@ -5,6 +5,7 @@ from . import views
 app_name = 'keeper'
 urlpatterns = [
     path('', views.index, name='index'),
+    path('history/page/<int:page_id>/', views.history, name='history'),
     path('history/', views.history, name='history'),
     path('reg/', views.register, name='register'),
     path('login/', views.login_user, name='login'),
@@ -14,5 +15,4 @@ urlpatterns = [
     path('logout/', views.logout_user, name='logout'),
     path('card/', views.card_take, name='card'),
     path('about/', views.about, name='about'),
-
 ]
