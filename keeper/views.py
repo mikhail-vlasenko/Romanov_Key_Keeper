@@ -222,6 +222,7 @@ def history(request, page_id=1):
     return render(request, 'history.html', context)
 
 
+@login_required
 def register(request):
     """
         Register page rendering function
