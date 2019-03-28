@@ -137,7 +137,7 @@ def card_take(request):
                 except ObjectDoesNotExist:
                     context['message'] = 'Нет такой карты'
             else:
-                context['message'] = 'У вас не достаточно прав. Вы можете использовать карту только на охране'
+                context['message'] = 'У вас недостаточно прав. Вы можете использовать карту только на охране'
 
     else:
         f = CardForm()
@@ -235,20 +235,23 @@ def register(request):
     if request.method == 'POST':
         f = RegisterForm(request.POST)
         if f.is_valid() and f.data['password'] == f.data['password2']:
-            try:
-                if CustomUser.objects.filter(card_id=f.data['card_id']).exists():
-                    context['message'] = 'Такая карта уже есть'
-                else:
-                    user = CustomUser.objects.create_user(username=f.data['username'], password=f.data['password'],
-                                                          card_id=f.data['card_id'], last_name=f.data['last_name'],
-                                                          first_name=f.data['first_name'])
-                    user.save()
-                    context['message'] = 'Вы успешно зарегистрированы!'
-                    user = authenticate(request, username=f.data['username'], password=f.data['password'])
-                    if user is not None:
-                        return HttpResponseRedirect('/card')
-            except IntegrityError:
-                context['message'] = 'Такое имя пользователя уже есть'
+            if request.user.username in CARD_TAKE_USERS:
+                try:
+                    if CustomUser.objects.filter(card_id=f.data['card_id']).exists():
+                        context['message'] = 'Такая карта уже есть'
+                    else:
+                        user = CustomUser.objects.create_user(username=f.data['username'], password=f.data['password'],
+                                                              card_id=f.data['card_id'], last_name=f.data['last_name'],
+                                                              first_name=f.data['first_name'])
+                        user.save()
+                        context['message'] = 'Вы успешно зарегистрированы!'
+                        user = authenticate(request, username=f.data['username'], password=f.data['password'])
+                        if user is not None:
+                            return HttpResponseRedirect('/card')
+                except IntegrityError:
+                    context['message'] = 'Такое имя пользователя уже есть'
+            else:
+                context['message'] = 'У вас недостаточно прав. Вы можете зарегистрироваться на охране'
         else:
             context['message'] = 'Пароли не совпадают'
 
