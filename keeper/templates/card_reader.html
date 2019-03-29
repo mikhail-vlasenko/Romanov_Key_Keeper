@@ -19,6 +19,12 @@
         {% if error %}
             <p>error</p>
         {% endif %}
+        {% if action == "ВЗЯЛ" %}
+        <p>Пользователь {{ user_name }} <font color="green">{{ action }}</font> ключ от кабинета №{{ key_num }}</p>
+        {% endif %}
+        {% if action == "ОТДАЛ" %}
+        <p>Пользователь {{ user_name }} <font color="red">{{ action }}</font> ключ от кабинета №{{ key_num }}</p>
+        {% endif %}
         <p>{{ message }}</p>
     </div>
 </body>

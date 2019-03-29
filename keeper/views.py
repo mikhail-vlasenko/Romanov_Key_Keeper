@@ -126,14 +126,15 @@ def card_take(request):
                         hist_unit.active = 'Сдан'
                         hist_unit.time_back = datetime.datetime.now()
                         hist_unit.save()
-                        context['message'] = 'Пользователь ' + str(card_user.username) +\
-                                             ' ОТДАЛ ключ от кабинета №' + str(f.data['key_num'])
+                        context['action'] = 'ОТДАЛ'
                     except ObjectDoesNotExist:
                         hist = History(key=f.data['key_num'], time_cr=datetime.datetime.now(), user_id=card_user)
                         hist.active = 'Не сдан'
                         hist.save()
-                        context['message'] = 'Пользователь ' + str(card_user.username) +\
-                                             ' ВЗЯЛ ключ от кабинета №' + str(f.data['key_num'])
+                        context['action'] = 'ВЗЯЛ'
+                    context['user_name'] = str(card_user.username)
+                    context['key_num'] = str(f.data['key_num'])
+
                 except ObjectDoesNotExist:
                     context['message'] = 'Нет такой карты'
             else:
@@ -226,7 +227,7 @@ def history(request, page_id=1):
 def register(request):
     """
         Register page rendering function
-        Lets users to register on the website
+        Lets users to register on the website. Only works on special accounts (as taking by card)
 
         :param request: request object
         :return: request answer object, contains *HTML* file
@@ -288,6 +289,7 @@ def login_user(request):
     else:
         f = LoginForm()
 
+    context['user_name'] = str(request.user.username)
     context['form'] = f
     return render(request, 'login.html', context)
 
