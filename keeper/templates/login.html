@@ -7,7 +7,12 @@
 <body>
     {% include "includes/nav_bar.html" %}
     <div class="container-fluid">
+        {% if user_name %}
+        <p class="text-info">Ваше имя пользователя <strong>{{ user_name }}</strong></p>
+        {% else %}
         <p class="text-info">Войдите, чтобы просматривать все страницы сайта</p>
+        {% endif %}
+        <a href="https://romanovkey.ru/docs/_build/html/doc_index.html"><u>Как пользоваться</u></a>
         <form method="POST">
             {% csrf_token %}
             <label for="username">{{ form.username.label }} </label> <input type="text" id="username" name="username" required autofocus>
@@ -17,7 +22,11 @@
             <input type="submit" value="Войти" class="btn btn-outline-success">
         </form>
         <!--<a href="change_pass">Забыли пароль?</a>-->
+        {% if user_name %}
+        <a class="btn btn-outline-success" href="{% url 'keeper:logout' %}">Выйти</a>
+        {% else %}
         <p>Вы можете зарегистрироваться на охране, используя ридер</p>
+        {% endif %}
         {% if error %}
         <p>error</p>
         {% endif %}
