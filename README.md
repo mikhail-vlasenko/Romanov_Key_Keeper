@@ -1,2 +1,6 @@
 # Romanov_Key_Keeper
-web project with django and python
+
+Website: **romanovkey.ru**
+
+A handy website to track classroom keys in my school.
+For more information visit the website and click *Как пользоваться*
