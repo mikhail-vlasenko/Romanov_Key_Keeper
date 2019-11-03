@@ -67,8 +67,9 @@
 <dl class="function">
 <dt id="keeper.views.card_take">
 <code class="descclassname">keeper.views.</code><code class="descname">card_take</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#keeper.views.card_take" title="Ссылка на это определение">¶</a></dt>
-<dd><p>Card using page rendering function
-Lets users to take/return keys using their cards</p>
+<dd><p>Card using page rendering function.
+Lets users to take/return keys using their cards.
+User should be Guard or Admin to enable this method.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -93,19 +94,24 @@ Lets users to take/return keys using their cards</p>
 
 <dl class="function">
 <dt id="keeper.views.history">
-<code class="descclassname">keeper.views.</code><code class="descname">history</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#keeper.views.history" title="Ссылка на это определение">¶</a></dt>
-<dd><p>History page rendering function
-Lets users to see history or search through it
-No login required</p>
+<code class="descclassname">keeper.views.</code><code class="descname">history</code><span class="sig-paren">(</span><em>request</em>, <em>page_id=1</em><span class="sig-paren">)</span><a class="headerlink" href="#keeper.views.history" title="Ссылка на это определение">¶</a></dt>
+<dd><p>History page rendering function.
+Lets users to see history or search through it.
+For security purposes login is also required.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Параметры:</th><td class="field-body"><strong>request</strong> – request object</td>
+<tr class="field-odd field"><th class="field-name">Параметры:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> – request object</li>
+<li><strong>page_id</strong> – page number, influence displaying interval</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Результат:</th><td class="field-body">request answer object, contains <em>HTML</em> file</td>
+<tr class="field-even field"><th class="field-name">Результат:</th><td class="field-body"><p class="first">request answer object, contains <em>HTML</em> file</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Тип результата:</th><td class="field-body"><table class="docutils field-list" frame="void" rules="none">
+<tr class="field-odd field"><th class="field-name">Тип результата:</th><td class="field-body"><p class="first last"><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
@@ -113,6 +119,7 @@ No login required</p>
 </tr>
 </tbody>
 </table>
+</p>
 </td>
 </tr>
 </tbody>
@@ -122,8 +129,10 @@ No login required</p>
 <dl class="function">
 <dt id="keeper.views.index">
 <code class="descclassname">keeper.views.</code><code class="descname">index</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#keeper.views.index" title="Ссылка на это определение">¶</a></dt>
-<dd><p>Main page rendering function
-Lets users to transfer key to each other</p>
+<dd><p>Main page rendering function.
+Lets users to transfer key to each other.
+Displays interface with owned keys and a form for key transfer.
+Login is required.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -149,8 +158,8 @@ Lets users to transfer key to each other</p>
 <dl class="function">
 <dt id="keeper.views.login_user">
 <code class="descclassname">keeper.views.</code><code class="descname">login_user</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#keeper.views.login_user" title="Ссылка на это определение">¶</a></dt>
-<dd><p>Login page rendering function
-Lets users to login on the website</p>
+<dd><p>Login page rendering function.
+Lets users to login on the website.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -202,8 +211,9 @@ Lets users to login on the website</p>
 <dl class="function">
 <dt id="keeper.views.register">
 <code class="descclassname">keeper.views.</code><code class="descname">register</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#keeper.views.register" title="Ссылка на это определение">¶</a></dt>
-<dd><p>Register page rendering function
-Lets users to register on the website</p>
+<dd><p>Register page rendering function.
+Lets users to register on the website. Only works on special accounts (as taking by card).
+This prevents unwanted access to log database.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -355,10 +365,6 @@ Lets users to register on the website</p>
     </div>
     <div class="footer">
       &copy;2019, Vlasenko Mikhail.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.4</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="_sources/code.rst.txt"

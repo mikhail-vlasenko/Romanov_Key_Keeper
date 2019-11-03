@@ -18,8 +18,10 @@ CARD_TAKE_USERS = ['Guard', 'romanov_admin']  # who is allowed to use card reade
 @login_required
 def index(request):
     """
-    Main page rendering function
-    Lets users to transfer key to each other
+    Main page rendering function.
+    Lets users to transfer key to each other.
+    Displays interface with owned keys and a form for key transfer.
+    Login is required.
 
     :param request: request object
     :return: request answer object, contains *HTML* file
@@ -107,8 +109,9 @@ def index(request):
 @login_required
 def card_take(request):
     """
-    Card using page rendering function
-    Lets users to take/return keys using their cards
+    Card using page rendering function.
+    Lets users to take/return keys using their cards.
+    User should be Guard or Admin to enable this method.
 
     :param request: request object
     :return: request answer object, contains *HTML* file
@@ -147,11 +150,12 @@ def card_take(request):
     return render(request, 'card_reader.html', context)
 
 
+@login_required
 def history(request, page_id=1):
     """
-    History page rendering function
-    Lets users to see history or search through it
-    No login required
+    History page rendering function.
+    Lets users to see history or search through it.
+    For security purposes login is also required.
 
     :param request: request object
     :param page_id: page number, influence displaying interval
@@ -226,8 +230,9 @@ def history(request, page_id=1):
 @login_required
 def register(request):
     """
-        Register page rendering function
-        Lets users to register on the website. Only works on special accounts (as taking by card)
+        Register page rendering function.
+        Lets users to register on the website. Only works on special accounts (as taking by card).
+        This prevents unwanted access to log database.
 
         :param request: request object
         :return: request answer object, contains *HTML* file
@@ -267,8 +272,8 @@ def register(request):
 
 def login_user(request):
     """
-        Login page rendering function
-        Lets users to login on the website
+        Login page rendering function.
+        Lets users to login on the website.
 
         :param request: request object
         :return: request answer object, contains *HTML* file
@@ -292,43 +297,6 @@ def login_user(request):
     context['user_name'] = str(request.user.username)
     context['form'] = f
     return render(request, 'login.html', context)
-
-
-'''
-                            Not needed actually
-def change_pass(request):
-    """
-            Change password page rendering function
-            Lets users to change their passwords on the website
-
-            :param request: request object
-            :return: request answer object, contains *HTML* file
-            :rtype: :class: `django.http.HttpResponse`
-        """
-    context = {}
-    if request.method == 'POST':
-        f = ChangePassForm(request.POST)
-        if f.is_valid():
-            if f.data['password'] == f.data['password2']:
-                if f.data['pass_code'] == PASSWORD_CHANGE_CODE:
-                    user = CustomUser.objects.filter(username=f.data['username']).get()
-                    user.set_password(f.data['password'])
-                    user.save()
-                    if user is not None:
-                        login(request, user)
-                        return HttpResponseRedirect('/')
-
-                else:
-                    context['message'] = 'Код для изменения пароля не правильный'
-            else:
-                context['message'] = 'Пароли не совпадают'
-
-    else:
-        f = ChangePassForm()
-
-    context['form'] = f
-    return render(request, 'change_pass.html', context)
-'''
 
 
 def logout_user(request):
